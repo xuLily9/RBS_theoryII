@@ -11,17 +11,40 @@ user_rule(3,[fever(X)],symptoms(X)).
 user_rule(4,[cough(X)],symptoms(X)).
 
 %initial_question(1,can_meet(sara, harry), 'Can Sara and harry meet?').
-conclusion(can_meet(sara, harry)).
+conclusion(route(alex, c)).
 
-node(1,vaccinated(harry), initial_fact, []).
-node(2,vaccinated(sara), initial_fact, []).
-node(3,taste_and_smell(sara), initial_fact, []).
-node(4,taste_and_smell(harry), initial_fact, []).
 
-rule(1,[not(pinged(A)), not(pinged(B)), vaccinated(A), vaccinated(B), not(symptoms(A)), not(symptoms(B))],can_meet(A, B)).
-rule(2,[not(taste_and_smell(X))], symptoms(X)).
-rule(3,[fever(X)],symptoms(X)).
-rule(4,[cough(X)],symptoms(X)).
+node(1,name(alex), initial_fact, []).
+node(2,name(emma), initial_fact, []).
+node(3,phone(alex), initial_fact, []).
+node(4,phone(emma), initial_fact, []).
+node(5,friend(alex,jane), initial_fact, []).
+node(6,friend(jane,emma), initial_fact, []).
+node(7,talk(alex,emma), initial_fact, []).
+node(8,question(alex), initial_fact, []).
+node(9,warning(forcast), initial_fact, []).
+node(10,high_rating(forcast), initial_fact, []).
+node(11,weather_answer(forcast), initial_fact, []).
+node(12,weather_question(emma), initial_fact, []).
+node(13,yellow(forcast), initial_fact, []).
+node(14,highway(c), initial_fact, []).
+
+
+rule(1,[friend(X,Y),friend(Y,Z)],friend(X,Z)).
+rule(2,[phone(X),phone(Y),talk(X,Y)],call(X,Y)).
+
+rule(3,[call(X,Y),question(X)],advice(X,Y)).
+
+rule(4,[name(X),name(Y),friend(X,Y),advice(X,Y)],recommend(X,Y)).
+
+rule(5,[high_rating(Z),weather_answer(Z),weather_question(X)],app(X,Z)).
+
+rule(6,[app(Y,Z),recommend(X,Y)],download(X,Z)).
+
+rule(7,[yellow(X)],warning(X)).
+rule(8,[warning(X)],predict_rain(X)).
+rule(9,[predict_rain(Z),download(X,Z)],weather_bad(X)).
+rule(10,[weather_bad(X),highway(C)],route(X,C)).
 
 
 
