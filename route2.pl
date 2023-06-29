@@ -30,6 +30,10 @@ node(13,yellow(forcast), initial_fact, []).
 node(14,highway(c), initial_fact, []).
 
 
+node(15,football_team(mancity), initial_fact, []).
+node(16,cityroad(a), initial_fact, []).
+node(17,celebrate(mancity), initial_fact, []).
+
 rule(1,[friend(X,Y),friend(Y,Z)],friend(X,Z)).
 rule(2,[phone(X),phone(Y),talk(X,Y)],call(X,Y)).
 
@@ -44,7 +48,17 @@ rule(6,[app(Y,Z),recommend(X,Y)],download(X,Z)).
 rule(7,[yellow(X)],warning(X)).
 rule(8,[warning(X)],predict_rain(X)).
 rule(9,[predict_rain(Z),download(X,Z)],weather_bad(X)).
-rule(10,[weather_bad(X),highway(C)],route(X,C)).
+
+
+rule(10,[football_team(Y)],champion(Y)).
+rule(11,[champion(Y),cityroad(X)],parade(Y,X)).
+rule(12,[parade(Y,X),celebrate(Y)],special_event(X)).
+rule(13,[special_event(X)],major_city_event(X)).
+rule(14,[major_city_event(X)],many_people(X)).
+rule(15,[many_people(X)],congestion(X)).
+
+
+rule(16,[weather_bad(X),highway(C),congestion(A)],route(X,C)).
 
 
 
