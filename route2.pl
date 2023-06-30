@@ -1,7 +1,7 @@
 
 
 
-conclusion(route(alex, c)).
+conclusion(chosen_route(alex,c)).
 
 
 node(1,name(alex), initial_fact, []).
@@ -48,7 +48,7 @@ rule(14,[major_city_event(X)],many_people(X)).
 rule(15,[many_people(X)],congestion(X)).
 
 
-rule(16,[weather_bad(X),highway(C),congestion(A)],route(X,C)).
+rule(16,[name(X),weather_bad(X),highway(C),congestion(A)],chosen_route(X,C)).
 
 
 
