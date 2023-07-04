@@ -15,14 +15,13 @@ node(13,green(forcast), initial_fact, []).
 
 %node(14,route(c), initial_fact, []).
 node(14,light_traffic(c), initial_fact, []).
-%node(14,connected(00,20), initial_fact, []).
-%node(14,connected(20,30), initial_fact, []).
+node(14,connected(00,20), initial_fact, []).
+node(14,connected(20,30), initial_fact, []).
 node(14,highway(30,40), initial_fact, []).
-node(14,road_set([road(00,20),road(20,30)]), initial_fact, []).
+node(14,route_name(c), initial_fact, []).
+%node(14,road_set([road(00,20),road(20,30)]), initial_fact, []).
 
 node(14,route_set(a,b,c), initial_fact, []).
-
-
 
 road_set(Roads) :-
     Roads = [Road | Rest],  % Extract the first road from the list
@@ -33,8 +32,10 @@ road_set([]).  % Base case: an empty road set
 process_road(Road) :-
     % Custom rule or predicate using the road
     % ...
-    assert(node(_ID, Road, _ID_r, _NodeList)),!,
+    assert(node(_ID, Road, _ID_r, [])),!,
     writeln(Road).  % Printing the road as an example
+
+
 
 
 rule(3,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
@@ -43,9 +44,15 @@ rule(6,[app(W),take_advice(X,W)],download(X,W)).
 rule(7,[green(W)],predict_sunny(W)).
 rule(9,[predict_sunny(W),download(X,W)],weather_sunny(X)).
 
-%rule(16,[connected(X,Y)],road(X,Y)).
-%rule(16,[connected(X,Z),road(Z,Y)],road(X,Y)).
-rule(16,[road(X,Y),road(Y,Z)],route(C)).
+rule(16,[connected(X,Y)],road(X,Y)).
+rule(16,[connected(X,Z),road(Z,Y)],road(X,Y)).
+rule(16,[road(X,Y),road(Y,Z),highway(Z,P),route_name(C)],route(C)).
+%rule(16,[road(From, To),road(From, To)],route(C)).
+
+% Predicate to convert individual roads into a road_set
+%convert_roads(RoadSet) :-	
+  %findall(road(From, To), road(From, To), RoadSet).
+
 
 rule(16,[light_traffic(C),weather_sunny(X),route(C),name(X)],valid_route(C)).
 
