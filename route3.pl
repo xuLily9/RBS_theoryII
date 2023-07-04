@@ -17,7 +17,9 @@ node(10,high_rating(forcast), initial_fact, []).
 node(11,weather_answer(forcast), initial_fact, []).
 node(12,weather_question(emma), initial_fact, []).
 node(13,yellow(forcast), initial_fact, []).
+node(13,green(forcast), initial_fact, []).
 node(14,highway(c), initial_fact, []).
+node(14,light_traffic(c), initial_fact, []).
 
 
 node(15,football_team(mancity), initial_fact, []).
@@ -39,6 +41,9 @@ rule(7,[yellow(X)],warning(X)).
 rule(8,[warning(X)],predict_rain(X)).
 rule(9,[predict_rain(Z),download(X,Z)],weather_bad(X)).
 
+rule(7,[green(X)],predict_sunny(X)).
+rule(9,[predict_sunny(Z),download(X,Z)],weather_sunny(X)).
+
 
 rule(10,[football_team(Y)],champion(Y)).
 rule(11,[champion(Y),cityroad(X)],parade(Y,X)).
@@ -48,9 +53,9 @@ rule(14,[major_city_event(X)],many_people(X)).
 rule(15,[many_people(X)],congestion(X)).
 
 
-rule(16,[light_traffic(C),weather_sunny(C),highest_liked(C)],valid_route(C)).
+rule(16,[light_traffic(C),weather_sunny(C)],valid_route(C)).
 
-rule(16,[name(X),valid_route(C)],chosen_route(X,C)).
+rule(16,[name(X),route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],chosen_route(X,C)).
 
 
 
