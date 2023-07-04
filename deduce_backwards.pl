@@ -28,6 +28,7 @@ check_antecedants([not(H)|T], [node(ID_n,not(H),unprovable,[])|NodeList]):-
 
 
 
+
 % the deduce processing using user rules 
 deduce_user(Q, user_fact(ID, Q, R , DAG)):-
    user_fact(ID, Q, R , DAG).
