@@ -57,8 +57,8 @@ rule(4,[predict_sunny(W),download(X,W)],weather_sunny(X)).
 %rule(16,[hospital(X),park(Y)],connected(X,Y)).
 %rule(16,[park(X),airport(Y)],highway(X,Y)).
 
-%rule(16,[road(X,Y)],connected(X,Y)).
-%rule(16,[connected(X,Y),road(X,Y)],connected(X,Y)).
+%rule(16,[road(X,Y)],direct_route(X,Y)).
+%rule(16,[direct_route(X,Y),direct_route(Y,Z)],connected(X,Y)).
 rule(5,[road(X,Z),road(Z,Y)],road(X,Y)).
 rule(6,[road(X,Y),highway(Y,Z)],route(X,Z)).
 
