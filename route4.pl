@@ -5,13 +5,15 @@ node(4,call(alex,emma), initial_fact, []).
 node(5,give_advice(forcast), initial_fact, []).
 node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
-
-node(8,road(00,10), initial_fact, []).
+node(8,need_gas(00), initial_fact, []).
+%node(8,road(00,10), initial_fact, []).
 node(9,road(10,20), initial_fact, []).
 node(10,road(20,30), initial_fact, []).
-node(12,school(00), initial_fact, []).
-node(13,airport(30), initial_fact, []).
-node(14,green(c), initial_fact, []).
+node(12,gas_station(00), initial_fact, []).
+node(13,park(10), initial_fact, []).
+node(14,school(20), initial_fact, []).
+node(15,airport(30), initial_fact, []).
+node(16,green(c), initial_fact, []).
 
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -25,7 +27,17 @@ rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
 rule(8,[direct_route(X,Y)],find_route(X, Y)).
 rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
 
-rule(10,[light_traffic(C),weather_sunny(X),school(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
+rule(11,[need_gas(X)],gas_station(X)).
+
+
+
+rule(10,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+
+
+
+
+
 
 
 %rule(12,[name(X),route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],chosen_route(X,C)).
