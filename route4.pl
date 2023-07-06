@@ -7,14 +7,16 @@ node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
 node(8,need_gas(car), initial_fact, []).
 %node(8,road(00,10), initial_fact, []).
-node(9,road(10,20), initial_fact, []).
-node(10,road(20,30), initial_fact, []).
-node(12,gas(00), initial_fact, []).
-node(13,park(10), initial_fact, []).
-node(14,school(20), initial_fact, []).
-node(15,airport(30), initial_fact, []).
-node(16,green(c), initial_fact, []).
-node(17,drive(car), initial_fact, []).
+%node(9,road(10,20), initial_fact, []).
+%node(10,road(20,30), initial_fact, []).
+node(9,gas(00), initial_fact, []).
+node(10,park(10), initial_fact, []).
+node(11,school(20), initial_fact, []).
+node(12,airport(30), initial_fact, []).
+node(13,green(c), initial_fact, []).
+node(14,drive(car), initial_fact, []).
+node(15,highway(20,30), initial_fact, []).
+node(16,route_set(a,b,c), initial_fact, []).
 
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -26,12 +28,15 @@ rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
 rule(8,[direct_route(X,Y)],find_route(X, Y)).
 rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
 rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
-rule(11,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
-rule(12,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
+rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
+
+rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
+rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],choose_route(C)).
 
 
-
-conclusion(valid_route(c)).
+conclusion(choose_route(c)).
 
 user_fact(1,name(alex), initial_fact, []).
 user_fact(2,name(emma), initial_fact, []).
@@ -42,14 +47,16 @@ user_fact(6,app(forcast), initial_fact, []).
 user_fact(7,smile(forcast), initial_fact, []).
 user_fact(8,need_gas(car), initial_fact, []).
 %node(8,road(00,10), initial_fact, []).
-user_fact(9,road(10,20), initial_fact, []).
-user_fact(10,road(20,30), initial_fact, []).
-user_fact(12,gas(00), initial_fact, []).
-user_fact(13,park(10), initial_fact, []).
-user_fact(14,school(20), initial_fact, []).
-user_fact(15,airport(30), initial_fact, []).
-user_fact(16,green(c), initial_fact, []).
-user_fact(17,drive(car), initial_fact, []).
+%user_fact(9,road(10,20), initial_fact, []).
+%user_fact(10,road(20,30), initial_fact, []).
+user_fact(9,gas(00), initial_fact, []).
+user_fact(10,park(10), initial_fact, []).
+user_fact(11,school(20), initial_fact, []).
+user_fact(12,airport(30), initial_fact, []).
+user_fact(13,green(c), initial_fact, []).
+user_fact(14,drive(car), initial_fact, []).
+user_fact(15,highway(20,30), initial_fact, []).
+user_fact(16,route_set(a,b,c), initial_fact, []).
 
 user_rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 user_rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -60,43 +67,46 @@ user_rule(6,[road(X,Y)],direct_route(X,Y)).
 user_rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
 user_rule(8,[direct_route(X,Y)],find_route(X, Y)).
 user_rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
-user_rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
-user_rule(11,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
-user_rule(12,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 
-fact_description(valid_route(X)):-
-    write('A person chooses this valid route: '),write(X).
+user_rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
+user_rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
+user_rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
+user_rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
+user_rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+user_rule(15,[route_set(A,B,C),valid_route(C),not(valid_route(A)),not(valid_route(B))],choose_route(C)).
+
+
 fact_description(name(X)):-
-    write('His/her name is '), write(X).
+    write('his/her name is '), write(X).
 fact_description(friend(X,Y)):-
     write(X), write(' and '),write(Y),write(' are friends').
 fact_description(call(X,Y)):-
     write(X), write(' called '),write(Y).
 fact_description(give_advice(X)):-
-     write('His/her firends gave advice about app called '),write(X).
+     write('his/her firends gave advice about app called '),write(X).
 fact_description(app(X)):-
-    write('App name is '),write(X).
+    write('app name is '),write(X).
 fact_description(smile(X)):-
-    write('There is a smile emoji showed on app '),write(X).
+    write('there is a smile emoji showed on app '),write(X).
 
 fact_description(need_gas(X)):-
     write(X), write(' needs gas').
 fact_description(road(X,Y)):-
-    write('There is a road from '), write(X), write(' to'),write(Y).
+    write('we choose this road from '), write(X), write(' to '),write(Y).
 fact_description(gas_station(X)):-
-    write('Gas station is at location '),write(X).
+    write('gas station is at location '),write(X).
 fact_description(gas(X)):-
    write(X), write(' has gas').
 fact_description(park(X)):-
-    write('Park is at location '),write(X).
+    write('park is at location '),write(X).
 fact_description(school(X)):-
-    write('School is at location '),write(X).
+    write('school is at location '),write(X).
 fact_description(airport(X)):-
-    write('Airport is at location '),write(X).
+    write('airport is at location '),write(X).
 fact_description(green(X)):-
-    write('The app shows route '),write(X),write(' is green').
+    write('the app shows route '),write(X),write(' is green').
 fact_description(drive(X)):-
-    write('He/She can dive'),write(X).
+    write('he/She can dive'),write(X).
 
 fact_description(take_advice(X,W)):-
    write(X), write(' took the advice about '),write(W).
@@ -107,20 +117,33 @@ fact_description(predict_sunny(W)):-
 fact_description(light_traffic(X)):-
     write(X),write(' route has light traffic').
 fact_description(direct_route(X,Y)):-
-    write('It is a direct road from '), write(X), write(' to'),write(Y).
+    write('it is a direct road from '), write(X), write(' to '),write(Y).
 fact_description(indirect_route(X,Y)):-
-    write('It is an indirect road from '), write(X), write(' to'),write(Y).
+    write('it is an indirect road from '), write(X), write(' to '),write(Y).
 fact_description(find_route(X, Y)):-
-    write('We find aroute from '), write(X), write(' to'),write(Y).
+    write('we find aroute from '), write(X), write(' to '),write(Y).
 fact_description(not(congestion(Y))):-
     write('in location '), write(Y), write(' ,there is no congestion').
 fact_description(congestion(Y)):-
     write('in location '), write(Y), write(' ,there is a congestion').
 fact_description(weather_sunny(X)):-
     write(X), write(' knows it is a sunny day').
+fact_description(peak_hours(X)):-
+    write('it is the peak hours for '),write(X).
+fact_description(not(peak_hours(X))):-
+    write('it is not the peak hours for '),write(X).
+fact_description(highway(X,Y)):-
+    write('from '),write(X),write(' to '),write(Y),write(' is a highway road').
+
+fact_description(choose_route(X)):-
+    write('he/she will choose the route: '), write(X).
+fact_description(route_set(A,B,C)):-
+    write(A),write(','),write(B),write(','),write(C), write(' is a route set').
+    
 fact_description(valid_route(X)):-
     write(X), write(' is a valid route').
-
+fact_description(not(valid_route(X))):-
+    write(X), write(' is not a valid route').
 
 rule_description(1):-
     write('1. If two friends talk on the phone and one of them offers advice, then the other buddy follows that advice.').
@@ -144,12 +167,18 @@ rule_description(9):-
 rule_description(10):-
     write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park').
 rule_description(11):-
-    write('11. If one person dives a car and the car needs gas, then this person needs to go to gas station').
+    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
 
 rule_description(12):-
-    write('12. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
+    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
 
+rule_description(13):-
+    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station').
 
+rule_description(14):-
+    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
+rule_description(15):-
+    write('15. If there is a route set, only one of them is valid, then he/she will choose that route').
 
 
 %% Pretty print the system rules 
@@ -174,9 +203,16 @@ r_description(9):-
 r_description(10):-
     write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park'),nl.
 r_description(11):-
-    write('11. If one person dives a car and the car needs gas, then this person needs to go to gas station'),nl.
+    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
+
 r_description(12):-
-    write('12. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route'),nl.
+    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
+r_description(13):-
+    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station'),nl.
+r_description(14):-
+    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
+r_description(15):-
+    write('15. If there is a route set, only one of them is valid, then he/she will choose that route').
 
 system_rule(Rule):-
     r_description(Rule).
