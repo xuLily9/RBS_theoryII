@@ -1,12 +1,12 @@
 
 %% LOUISE:  both write_why_list and write_why_not_list feel a bit redundant to me.
 %% The user has already said they want an explanation.
-why(1, "[Agree]. Why do you believe it?").
-why(2, "[Disagree]. Why do you believe it?").
+why(1, "[I agree]. Why do you believe it?").
+why(2, "[I disagree]. Why do you believe it?").
 why(3, "[I do not know]. Why do you believe it?").
 
-whynot(1, "[Agree]. Why don't you believe it?").
-whynot(2, "[Disagree]. Why don't you believe it?").
+whynot(1, "[I agree]. Why don't you believe it?").
+whynot(2, "[I disagree]. Why don't you believe it?").
 whynot(3, "[I do not know]. Why don't you believe it?").
 
 reason(1, "Because it's a user initial fact.").
@@ -31,7 +31,7 @@ write_user_rule.
 print_fact(Fact):-
     fact_description(Fact).
 print_rule(Rule):-
-     rule_description(Rule).
+    rule_description(Rule).
 
 true_then:-
     why(N, Name),
