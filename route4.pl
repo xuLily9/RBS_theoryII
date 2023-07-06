@@ -65,7 +65,7 @@ user_rule(11,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 user_rule(12,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 
 fact_description(valid_route(X)):-
-    write('A person chooses this valid route'),write(X).
+    write('A person chooses this valid route: '),write(X).
 fact_description(name(X)):-
     write('His/her name is '), write(X).
 fact_description(friend(X,Y)):-
