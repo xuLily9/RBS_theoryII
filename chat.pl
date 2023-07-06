@@ -10,7 +10,6 @@ chat:-
     ->ask_why(F)
     ; ask_whynot(F)
     ),
-    
     conversations(_Used,_).
 
 
@@ -26,14 +25,14 @@ print_conclusion(Conclusion,F):-
         deduce_backwards(F,node(_ID, F, _R, _DAG))
     ->  
         Conclusion = true, 
-        print_fact(F),write(': True.\n'),nl,
+        print_fact(F),write(': True.\n'),
         aggregate_all(count, y_user_computer(_,_), Count1), % user knows the system believe f
         A is Count1 +1,
         assert(y_user_computer(A,F)),!,
         assert(asked_question(F)),!
     ;   
         Conclusion = false,
-        print_fact(F),write(': False.\n'),nl,
+        print_fact(F),write(': False.\n'),
         aggregate_all(count, n_user_computer(_,_), Count2), % user knows the system does not believe f
         B is Count2 +1,
         assert(n_user_computer(B,F)),!       
@@ -50,14 +49,14 @@ ask_why(F):-    % conclusion is true and the user ask all trypes of why question
     ->  
         Agree=true,
         database1(Agree,F),
-        write('User: [Agree]. Why do you believe '), print_fact(F), write('?\n'),
+        write('User: [I agree]. Why do you believe '), print_fact(F), write('?\n'),
         why(F)
     ;  
          N =:= 2
     ->   
         Agree=false,
         database1(Agree,F),
-        write('User: [Disagree]. Why do you believe '),print_fact(F), write('?\n'), 
+        write('User: [I disagree]. Why do you believe '),print_fact(F), write('?\n'), 
         why(F)
     ;   
         N =:= 3
@@ -75,7 +74,7 @@ ask_whynot(F):- % conclusion is false and the user ask all trypes of whynot ques
     ->  
         Agree=true,
         database2(Agree,F),
-        write('User: [Agree] Why do not you believe '), print_fact(F), write('?\n'),
+        write('User: [I agree] Why do not you believe '), print_fact(F), write('?\n'),
         write('\nComputer: Because it is not an initial fact and can not be decuced from the rules.'),
         assert(asked_question(F)),nl, 
         conversations(_,_)
@@ -85,16 +84,16 @@ ask_whynot(F):- % conclusion is false and the user ask all trypes of whynot ques
          N =:= 2
     ->   Agree=false,
          database2(Agree,F),
-         write('User: [Disagree] Why do not you believe '), print_fact(F), write('?\n'),
+         write('User: [I disagree] Why do not you believe '), print_fact(F), write('?\n'),
          write('\nComputer: Why do you beleive '), print_fact(F), write('? '),
          assert(asked_question(F)),nl,
          whynot(F)
         
     ;   
         N =:= 3
-    ->  write('User: I do not know. Why do not you believe '), print_fact(F), write('?\n'),why(F)
+    ->  write('User: [I do not know] Why do not you believe '), print_fact(F), write('?\n'),why(F)
 
-    ;   write("Computer:Not a valid choice, try again..."), nl,fail
+    ;   write("Computer: Not a valid choice, try again..."), nl,fail
     ).
 
 database1(Agree,F):-   %conlcuison is true, update the state
@@ -187,7 +186,7 @@ question_list:-
     ).
 
 
-   conversations(_Used,_R):-
+conversations(_Used,_R):-
     repeat,
     write('\n----------SELECT A QUESTION OR EXIT----------\n'),nl,
     question_list.
