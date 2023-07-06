@@ -11,7 +11,7 @@ why(F):-
     ;   
         write('\nComputer: Because '), 
         print_fact(F),
-        write(' is an initial fact of the system.\n')
+        write(' is the initial fact in computer.\n')
     ),
     conversations(false,_).
   
