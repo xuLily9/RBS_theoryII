@@ -18,6 +18,10 @@ node(14,drive(car), initial_fact, []).
 node(15,highway(20,30), initial_fact, []).
 node(16,route_set(a,b,c), initial_fact, []).
 
+node(15,football_team(mancity), initial_fact, []).
+node(16,cityroad(a), initial_fact, []).
+node(17,celebrate(mancity), initial_fact, []).
+
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
 rule(3,[smile(W)],predict_sunny(W)).
@@ -35,6 +39,14 @@ rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],choose_route(C)).
 
+
+rule(10,[football_team(Y)],champion(Y)).
+rule(11,[champion(Y),cityroad(X)],parade(Y,X)).
+rule(12,[parade(Y,X),celebrate(Y)],special_event(X)).
+rule(13,[special_event(X)],major_city_event(X)).
+rule(14,[major_city_event(X)],many_people(X)).
+rule(15,[many_people(X)],congestion(X)).
+rule(15,[congestion(X)],not(valid_route(X))).
 
 conclusion(choose_route(c)).
 
