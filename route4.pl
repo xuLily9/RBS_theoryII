@@ -17,10 +17,13 @@ node(13,green(c), initial_fact, []).
 node(14,drive(car), initial_fact, []).
 node(15,highway(20,30), initial_fact, []).
 node(16,route_set(a,b,c), initial_fact, []).
-
 node(17,football_team(mancity), initial_fact, []).
 node(18,cityroad(a), initial_fact, []).
 node(19,celebrate(mancity), initial_fact, []).
+node(20,narrow_road(b), initial_fact, []).
+node(21,more_traffic_light(b), initial_fact, []).
+node(22,country_road(b), initial_fact, []).
+
 
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -34,12 +37,9 @@ rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
 rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
 rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
 rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
-
 rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],choose_route(C)).
-
-
 rule(16,[football_team(Y)],champion(Y)).
 rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
 rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
@@ -47,6 +47,10 @@ rule(19,[special_event(X)],major_city_event(X)).
 rule(20,[major_city_event(X)],many_people(X)).
 rule(21,[many_people(X)],congestion(X)).
 rule(22,[congestion(X)],not(valid_route(X))).
+
+rule(23,[narrow_road(X)],limited_road_apacity(X)).
+rule(24,[limited_road_apacity(X),more_traffic_light(X)],longer_path(X)).
+rule(25,[longer_path(X),country_road(X)],not(valid_route(X))).
 
 conclusion(choose_route(c)).
 
@@ -72,7 +76,9 @@ user_fact(16,route_set(a,b,c), initial_fact, []).
 user_fact(17,football_team(mancity), initial_fact, []).
 user_fact(18,cityroad(a), initial_fact, []).
 user_fact(19,celebrate(mancity), initial_fact, []).
-
+user_fact(20,narrow_road(b), initial_fact, []).
+user_fact(21,more_traffic_light(b), initial_fact, []).
+user_fact(22,country_road(b), initial_fact, []).
 
 user_rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 user_rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -97,7 +103,20 @@ user_rule(19,[special_event(X)],major_city_event(X)).
 user_rule(20,[major_city_event(X)],many_people(X)).
 user_rule(21,[many_people(X)],congestion(X)).
 user_rule(22,[congestion(X)],not(valid_route(X))).
+user_rule(23,[narrow_road(X)],limited_road_capacity(X)).
+user_rule(24,[limited_road_capacity(X),more_traffic_light(X)],longer_path(X)).
+user_rule(25,[longer_path(X),country_road(X)],not(valid_route(X))).
 
+fact_description(narrow_road(X)):-
+   write(X), write(' is a narrow road').
+fact_description(country_road(X)):-
+    write(X), write(' is a country road').
+fact_description(more_traffic_light(X)):-
+    write('there are more traffic lights in this road '),write(X).
+fact_description(limited_road_capacity(X)):-
+    write(X),write(' has limited road capacity').
+fact_description(longer_path(X)):-
+    write(X),write(' is a longer path').
 
 fact_description(football_team(X)):-
     write('the name of ffotball team is '), write(X).
@@ -105,7 +124,6 @@ fact_description(cityroad(X)):-
     write(X), write(' is a city road').
 fact_description(celebrate(X)):-
     write(X), write(' is celebrated ').
-
 fact_description(champion(X)):-
     write(X),write(' is the champion').
 fact_description(parade(Y,X)):-
@@ -207,7 +225,6 @@ rule_description(8):-
     write('8. If there is a direct road connecting two locations, then we find the route between this two locations').
 rule_description(9):-
     write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
-    
 rule_description(10):-
     write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park').
 rule_description(11):-
@@ -235,7 +252,12 @@ rule_description(21):-
     write('21. If there are lots of people, then there is a congestion').
 rule_description(22):-
     write('22. If there is a congestion in the road, then this road is not valid').
-
+rule_description(23):-
+    write('23. If there is a narrow road, then this road has limited road capacity').
+rule_description(24):-
+    write('24. If there this road has limited capacity and it has more traffic lights, then this road is a long path').
+rule_description(25):-
+    write('25. If there is a long path and it is a country road, then this road is not valid').
 
 %% Pretty print the system rules 
 r_description(1):-
@@ -283,6 +305,13 @@ r_description(21):-
     write('21. If there are lots of people, then there is a congestion').
 r_description(22):-
     write('22. If there is a congestion in the road, then this road is not valid').
+r_description(23):-
+    write('23. If there is a narrow road, then this road has limited road capacity').
+r_description(24):-
+    write('24. If there this road has limited capacity and it has more traffic lights, then this road is a long path').
+r_description(25):-
+    write('25. If there is a long path and it is a country road, then this road is not valid').
+
 
 system_rule(Rule):-
     r_description(Rule).
