@@ -69,6 +69,10 @@ user_fact(13,green(c), initial_fact, []).
 user_fact(14,drive(car), initial_fact, []).
 user_fact(15,highway(20,30), initial_fact, []).
 user_fact(16,route_set(a,b,c), initial_fact, []).
+user_fact(17,football_team(mancity), initial_fact, []).
+user_fact(18,cityroad(a), initial_fact, []).
+user_fact(19,celebrate(mancity), initial_fact, []).
+
 
 user_rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 user_rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -86,7 +90,13 @@ user_rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 user_rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 user_rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 user_rule(15,[route_set(A,B,C),valid_route(C),not(valid_route(A)),not(valid_route(B))],choose_route(C)).
-
+user_rule(16,[football_team(Y)],champion(Y)).
+user_rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
+user_rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
+user_rule(19,[special_event(X)],major_city_event(X)).
+user_rule(20,[major_city_event(X)],many_people(X)).
+user_rule(21,[many_people(X)],congestion(X)).
+user_rule(22,[congestion(X)],not(valid_route(X))).
 
 fact_description(name(X)):-
     write('his/her name is '), write(X).
