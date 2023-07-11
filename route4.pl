@@ -98,6 +98,29 @@ user_rule(20,[major_city_event(X)],many_people(X)).
 user_rule(21,[many_people(X)],congestion(X)).
 user_rule(22,[congestion(X)],not(valid_route(X))).
 
+
+fact_description(football_team(X)):-
+    write('the name of ffotball team is '), write(X).
+fact_description(cityroad(X)):-
+    write(X), write(' is a city road').
+fact_description(celebrate(X)):-
+    write(X), write(' is celebrated ').
+
+fact_description(champion(X)):-
+    write(X),write(' is the champion').
+fact_description(parade(Y,X)):-
+     write(' there is a parade about football team'), write(Y), write(' in city road'),write(X).
+fact_description(special_event(X)):-
+    write('there is a special event in road '),write(X).
+fact_description(major_city_event(X)):-
+    write('there is a major city event in road '),write(X).
+fact_description(many_people(X)):-
+    write('there are lots of people in road '),write(X).
+%fact_description(congestion(X)):-
+    %write('there is congestion in road '),write(X).
+fact_description(congestion(Y)):-
+    write('in location '), write(Y), write(' ,there is a congestion').
+
 fact_description(name(X)):-
     write('his/her name is '), write(X).
 fact_description(friend(X,Y)):-
@@ -146,8 +169,7 @@ fact_description(find_route(X, Y)):-
     write('we find aroute from '), write(X), write(' to '),write(Y).
 fact_description(not(congestion(Y))):-
     write('in location '), write(Y), write(' ,there is no congestion').
-fact_description(congestion(Y)):-
-    write('in location '), write(Y), write(' ,there is a congestion').
+
 fact_description(weather_sunny(X)):-
     write(X), write(' knows it is a sunny day').
 fact_description(peak_hours(X)):-
@@ -190,17 +212,29 @@ rule_description(10):-
     write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park').
 rule_description(11):-
     write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
-
 rule_description(12):-
     write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
-
 rule_description(13):-
     write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station').
-
 rule_description(14):-
     write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
 rule_description(15):-
     write('15. If there is a route set, only one of them is valid, then he/she will choose that route').
+
+rule_description(16):-
+    write('16. If there is a footable team win the final match, then this footbal team is the champion').
+rule_description(17):-
+    write('17. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+rule_description(18):-
+    write('18. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+rule_description(19):-
+    write('19. If this is a special event, then this is also a major city event').
+rule_description(20):-
+    write('20. If there is a major city event, then there are lots of people').
+rule_description(21):-
+    write('21. If there are lots of people, then there is a congestion').
+rule_description(22):-
+    write('22. If there is a congestion in the road, then this road is not valid').
 
 
 %% Pretty print the system rules 
@@ -235,6 +269,20 @@ r_description(14):-
     write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
 r_description(15):-
     write('15. If there is a route set, only one of them is valid, then he/she will choose that route').
+r_description(16):-
+    write('16. If there is a footable team win the final match, then this footbal team is the champion').
+r_description(17):-
+    write('17. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+r_description(18):-
+    write('18. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+r_description(19):-
+    write('19. If this is a special event, then this is also a major city event').
+r_description(20):-
+    write('20. If there is a major city event, then there are lots of people').
+r_description(21):-
+    write('21. If there are lots of people, then there is a congestion').
+r_description(22):-
+    write('22. If there is a congestion in the road, then this road is not valid').
 
 system_rule(Rule):-
     r_description(Rule).
