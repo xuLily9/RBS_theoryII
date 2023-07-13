@@ -17,14 +17,14 @@ whynot(F):-
                     Y1 is Y+1,
                     assert(y_computer_user(X1,F)),!,
                     assert(n_user_computer(Y1,F)),!,
-                    write('Computer: I have found the disagreement. User believes '), 
+                    write('Computer: I have found the disagreement.'), 
                     print_fact(F),
-                    write(' is an initial fact,but the computer neither believes nor infers it.\n'),nl,
+                    write(' is an initial fact of user, but the computer neither believes nor infers it.\n'),nl,
                     assert(different(F)),!
             )
         ; (
             \+user_fact(_,F,initial_fact,_)
-            ->write('\nComputer: It is not an initial user fact,please select another reason.'),whynot(F),nl,fail
+            ->write('\nComputer: I have checked. It is not an initial user fact, please select another reason.'),nl,whynot(F),nl,fail
             )
         )
     ;    Number =:= 2
@@ -38,7 +38,7 @@ whynot(F):-
 
 reason_rule(Fact,F):-
     repeat,
-    write('User: Please select a rule number: '),nl,
+    write('User: Please select a rule number from your rule sets: '),nl,
     write_user_rule,
     aggregate_all(count, user_rule(_,_,_), Count),
     Restart is Count+1,
@@ -51,14 +51,15 @@ reason_rule(Fact,F):-
     (  N=:=E
     ->  write('Computer:Bye\n')->halt
     ;  N=:=Restart
-    ->  write('\nComputer: Why do you beleive '), print_fact(Fact), write('? '),
+    ->  write('\nComputer: Why do you believe '), print_fact(Fact), write('? '),
         whynot(Fact)
     ;   
         (   
             user_rule(N, A, F),
-            check(A, _),
+            check(A, _)
+            %deduce_user(F,_)
             %write(A),write(F)
-            deduce_user(F,_)
+            
             %user_fact(_,F,_,_)
         -> 
             (
@@ -69,8 +70,10 @@ reason_rule(Fact,F):-
                 write_x_list,
                 aggregate_all(count, computer_ask_user(_,_), Num),
                 (   Num==0
-                ->  write('Computer: This rule is used in deduction. Both computer and user are agree with this rule, please select another rule to find disagreement.\n'),
-                     reason_rule(F,_)
+                ->  %write('Computer: This rule is used in deduction. Both computer and user are agree with this rule, please select another rule to find disagreement.\n'),
+                    write('Computer:  Why do you believe '),print_fact(F), write('? '),
+                    whynot(F)
+                    %reason_rule(F,_)
                 ;   computer_ask_user(Num,_F),
                     choose(Num)
                 )
