@@ -40,6 +40,7 @@ rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],choose_route(C)).
+
 rule(16,[football_team(Y)],champion(Y)).
 rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
 rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
