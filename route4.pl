@@ -49,8 +49,8 @@ rule(20,[major_city_event(X)],many_people(X)).
 rule(21,[many_people(X)],congestion(X)).
 rule(22,[congestion(X)],not(valid_route(X))).
 
-rule(23,[narrow_road(X)],limited_road_apacity(X)).
-rule(24,[limited_road_apacity(X),more_traffic_light(X)],longer_path(X)).
+rule(23,[narrow_road(X)],limited_road_capacity(X)).
+rule(24,[limited_road_capacity(X),more_traffic_light(X)],longer_path(X)).
 rule(25,[longer_path(X),country_road(X)],not(valid_route(X))).
 
 conclusion(choose_route(c)).
