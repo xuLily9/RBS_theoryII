@@ -20,7 +20,12 @@ check_antecedants([H|T], [node(ID, H, R, DAG)|NodeList]):-
     check_antecedants(T, NodeList).
 
 check_antecedants([not(H)|T], [node(ID_n,not(H),unprovable,[])|NodeList]):-
-    \+ deduce_backwards(H, _DAG), !,
+    %(
+       %\+ node(ID_n, H, _R , NodeList),!
+   % ;   deduce_backwards(H, _DAG)
+    %),
+    %\+ deduce_backwards(H, _DAG), !,
+    deduce_backwards(H, _DAG), !,
     countNumbers(Numbers),
     ID_n is Numbers +1,
     assert(node(ID_n,not(H),unprovable,[])),
