@@ -46,8 +46,8 @@ rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
 rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
 rule(19,[special_event(X)],major_city_event(X)).
 rule(20,[major_city_event(X)],many_people(X)).
-%rule(21,[many_people(X)],congestion(X)).
-rule(22,[not(congestion(X))],valid_route(X)).
+rule(21,[many_people(X)],congestion(X)).
+rule(22,[not(congestion(X)),cityroad(X)],valid_route(X)).
 
 rule(23,[narrow_road(X)],limited_road_capacity(X)).
 rule(24,[limited_road_capacity(X),more_traffic_light(X)],long_path(X)).
