@@ -28,6 +28,8 @@ write_user_rule:-
 write_user_rule.
 
 
+
+
 print_fact(Fact):-
     fact_description(Fact).
 print_rule(Rule):-
