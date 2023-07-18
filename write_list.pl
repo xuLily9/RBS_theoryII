@@ -28,11 +28,11 @@ write_user_rule:-
 write_user_rule.
 
 
-write_element([],0).
-write_element([H|T],Count):-
-    write(H),nl,
-    write_element(T,TailCount),
-    Count is TailCount +1.
+write_element([]).
+write_element([H|T]):-
+    %write(H),nl,
+    print_rule(H),nl,
+    write_element(T).
 
 print_fact(Fact):-
     fact_description(Fact).
