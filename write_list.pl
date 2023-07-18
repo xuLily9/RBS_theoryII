@@ -9,7 +9,7 @@ whynot(1, "[I agree]. Why don't you believe it?").
 whynot(2, "[I disagree]. Why don't you believe it?").
 whynot(3, "[I do not know]. Why don't you believe it?").
 
-reason(1, "Because it's a user initial fact.").
+reason(1, "Because it's an initial fact.").
 reason(2, "Because it is a new fact deduced by a rule.").
 reason(3, "Exit.").
 
@@ -63,11 +63,11 @@ write_why_list.
 
 
 write_whynot_list:-
-    n_user_computer(A,F),
+    n_user_computer(N,F),
     %\+deduce_user(F,_),
     \+ asked_question(F),
     aggregate_all(count, y_user_computer(_,_), Count),  %This is only for the number of select question, know how many why questions and then count why not question
-    B is A+Count,
+    B is N+Count,
     write(B),write(". Why do not you believe "), print_fact(F), write("?"),nl,
     fail.
 write_whynot_list.
@@ -76,13 +76,12 @@ write_whynot_list.
 
 
 write_w_list:-
-    y_computer_user(_N,F),
-    \+ deduce_backwards(F,_),
+    y_computer_user(N,F),
+   % \+ deduce_backwards(F,_),
     \+ asked_question(F),
-    aggregate_all(count, computer_ask_user(_,_), Num),
-    N is Num+1,
+    %aggregate_all(count, computer_ask_user(_,_), Num),
     assert(computer_ask_user(N, F)),
-    %write("Why do you believe "), print_fact(F), write("?"),nl,
+    write(N),write(". Why do you believe "), print_fact(F), write("?"),nl,
     fail.
 write_w_list.
 
@@ -90,12 +89,12 @@ write_w_list.
 
 write_x_list:-
     n_computer_user(_,F),
-    deduce_backwards(F,_),
+    %deduce_backwards(F,_),
     \+ asked_question(F),
-    aggregate_all(count, computer_ask_user(_,_), Num),
+    aggregate_all(count, y_computer_user(_,_), Num),
     N is Num +1,
     assert(computer_ask_user(N, F)),
-    %write("Why don't you believe "), print_fact(F), write("?"),nl,
+    write(N), write(". Why don't you believe "), print_fact(F), write("?"),nl,
     fail.
 write_x_list.
 
