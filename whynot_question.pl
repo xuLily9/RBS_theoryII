@@ -1,6 +1,7 @@
 whynot(F):-
     repeat,
-    write('Computer: Please state your reason:\n'),
+    write('\n----------Please state your reason----------\n'),nl,
+    %write('Computer: Please state your reason:\n'),
     write_reason,
     write('User: '),
     prompt(_, ''),
@@ -38,9 +39,8 @@ whynot(F):-
 
 reason_rule(Fact,F):-
     repeat,
-    write('User: Please select a rule number from your rule sets: '),nl,
-    %write_user_rule,
-    %aggregate_all(count, user_rule(_,_,Fact), Count),
+    write('\n-------Please select a rule number from related rule sets:-------\n'),nl,
+    %write('User: Please select a rule number from related rule sets: '),nl,
     findall(N, user_rule(N, _Antecedants, Fact),Ruleset),
     write_element(Ruleset),
     last(Ruleset, Count),
@@ -57,18 +57,48 @@ reason_rule(Fact,F):-
     ->  write('\nComputer: Why do you believe '), print_fact(Fact), write('? '),
         whynot(Fact)
     ;   
-        (   
-            user_rule(N, A, F),
-            check(A, _)
-            %deduce_user(F,_)
-            %write(A),write(F)
-            
-            %user_fact(_,F,_,_)
+        user_rule(N, A, F),
+        check(A, _),
+        write(A),
+        write('\n----------Answer A QUESTION OR EXIT----------\n'),nl,
+        write('1. I am satisfied. Exit\n'),
+        write_w_list,
+        write_x_list,
+        write('user:'),
+        prompt(_, ''),
+        read(P),
+        (
+              P=:= 1
+            -> write('Computer:Bye\n')->halt
+        ;
+            N1 is P-1,
+            y_computer_user(N1, Question)
+        ->  write('\nComputer: Why do you believe '),print_fact(Question), write('?\n'),
+            assert(asked_question(Question)),
+            %button(F)
+            whynot(Question)
+        ;   
+        aggregate_all(count, y_computer_user(_,_), Count),
+        A1 is P-Count-1,
+        n_computer_user(A1,Question2)
+         -> write('\nComputer: Why do not you believe '),print_fact(F), write('?\n'),
+            write('\nUser: Because it is not an initial fact and can not be decuced from the rules.'),
+            assert(asked_question(Question2)),nl, 
+            conversations(_,_)
+         ;   
+        write('Not a valid choice, try again...'), nl,fail
+        )
+  
+    ;   
+        write('Not a valid choice, try again...'), nl, fail).
+
+select_question:-
+    write('User:'),
+    prompt(_, ''),
+    read(N)   
         -> 
             (
-                rule(_,A,F)
-            ->  
-                assert(yr_computer_user(N,A,F)),!,
+                assert(yr_computer_user(N,_A,F)),!,
                 write_w_list,
                 write_x_list,
                 aggregate_all(count, computer_ask_user(_,_), Num),
@@ -84,31 +114,29 @@ reason_rule(Fact,F):-
                 write('Computer: I found the disagreement! I do not have this rule'),
                 print_rule(N),write(', but the user has it.'), nl,
                 assert(different(user_rule(N,_,_))),!,conversations(false,_)
-            )
-
-        ;   write('Computer: This rule is not used in deduction of this fact.'),
-            button(Fact)
-        )
-    ;   
-        write('Not a valid choice, try again...'), nl, fail).
-
+            ).
 
 
 button(F):-
     repeat,
-    write('Please choose another rule or reason\n'),
-    write('1. Restart to choose a reason\n'),
-    write('2. Choose another rule\n'),
-    write('3. Exit\n'),
+    write('\n----------Please state your reason----------\n'),
+    write_reason,
+    write('4. Restart to choose a reason\n'),
+    write('5. Choose another rule\n'),
+    write('6. Exit\n'),
     write('User:'),
     prompt(_, ''),
     read(N),
-    (   N=:= 1
+    (    N=:= 2
+    -> reason_rule(F,_)
+    ;     N=:= 3
+    -> reason_rule(F,_)
+    ;   N=:= 4
     -> write('\nComputer: Why do you beleive '), print_fact(F), write('? '),
         whynot(F)
-    ;   N=:= 2
+    ;   N=:= 5
     -> reason_rule(F,_)
-    ;   N=:= 3
+    ;   N=:= 6
     -> write('Computer:Bye\n')->halt
     ;   
         write('Not a valid choice, try again...'), nl, fail
@@ -146,6 +174,7 @@ check([not(H)|T], N):-
     check(T, N).
 check([H|T], [H|N]):-
     \+ deduce_user(H, _DAG),!, 
+    assert(n_computer_user(_,H)),
     check(T, N).
 check([H|T], N):-
     deduce_user(H,_DAG),
@@ -158,7 +187,6 @@ check([H|T], N):-
     ;
     check(T,N)
     ).
-
 
 pretty_list([],"").
 pretty_list([Head|Tail],Out):-
