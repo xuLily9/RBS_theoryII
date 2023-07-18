@@ -188,7 +188,7 @@ fact_description(indirect_route(X,Y)):-
 fact_description(find_route(X, Y)):-
     write('we find aroute from '), write(X), write(' to '),write(Y).
 fact_description(not(congestion(Y))):-
-    write('in location '), write(Y), write(' ,there is no congestion').
+    write('in route '), write(Y), write(',there is no congestion').
 
 fact_description(weather_sunny(X)):-
     write(X), write(' knows it is a sunny day').
@@ -253,7 +253,7 @@ rule_description(20):-
 rule_description(21):-
     write('21. If there are lots of people, then there is a congestion').
 rule_description(22):-
-    write('22. If there is no congestion in the road, then this road is valid').
+    write('22. If there is no congestion in this route and this route is a city road, then this road is valid').
 rule_description(23):-
     write('23. If there is a narrow road, then this road has limited road capacity').
 rule_description(24):-
@@ -306,7 +306,7 @@ r_description(20):-
 r_description(21):-
     write('21. If there are lots of people, then there is a congestion').
 r_description(22):-
-    write('22. If there is no congestion in the road, then this road is valid').
+    write('22. If there is no congestion in this route and this route is a city road, then this road is valid').
 r_description(23):-
     write('23. If there is a narrow road, then this road has limited road capacity').
 r_description(24):-
