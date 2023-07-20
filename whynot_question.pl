@@ -8,26 +8,7 @@ whynot(F):-
     read(Number),
     (   Number  =:= 1
     ->  
-        ( 
-            user_fact(_,F,initial_fact,_),
-            \+ node(_N, F,_, _)
-            -> (    write('User: Because '),print_fact(F),write(' is an initial fact.'),nl, 
-                    aggregate_all(count, y_computer_user(_,_), X),
-                    aggregate_all(count, n_user_computer(_,_), Y),
-                    X1 is X +1,
-                    Y1 is Y+1,
-                    assert(y_computer_user(X1,F)),!,
-                    assert(n_user_computer(Y1,F)),!,
-                    write('Computer: I have found the disagreement.'), 
-                    print_fact(F),
-                    write(' is an initial fact of user, but the computer neither believes nor infers it.\n'),nl,
-                    assert(different(F)),!
-            )
-        ; (
-            \+user_fact(_,F,initial_fact,_)
-            ->write('\nComputer: I have checked. It is not an initial user fact, please select another reason.'),nl,whynot(F),nl,fail
-            )
-        )
+        initial_fact_check(F),nl
     ;    Number =:= 2
     ->   reason_rule(F,_),nl, !
     ;    Number =:= 3
@@ -36,6 +17,28 @@ whynot(F):-
         write('Not a valid choice, try again...'), nl, fail
     ).
     
+
+initial_fact_check(F):-
+     ( 
+            user_fact(_,F,initial_fact,_)
+            %\+ node(_N, F,_, _)
+            -> (    write('User: Because '),print_fact(F),write(' is an initial fact.'),nl, 
+                    aggregate_all(count, y_computer_user(_,_), X),
+                    %aggregate_all(count, n_user_computer(_,_), Y),
+                    X1 is X +1,
+                    %Y1 is Y+1,
+                    assert(y_computer_user(X1,F)),!
+                   % assert(n_user_computer(Y1,F)),!,
+                   % write('Computer: I have found the disagreement '), 
+                   % print_fact(F),
+                   % write(' is an initial fact of user, but the computer neither believes nor infers it.\n'),nl,
+                   % assert(different(F)),!
+            )
+        ; (
+            \+user_fact(_,F,initial_fact,_)
+            ->write('\nComputer: I have checked. It is not an initial user fact, please select another reason.'),nl,whynot(F),nl,fail
+            )
+        ).
 
 reason_rule(Fact,F):-
     repeat,
@@ -75,8 +78,10 @@ reason_rule(Fact,F):-
             y_computer_user(N1, Question)
         ->  write('\nComputer: Why do you believe '),print_fact(Question), write('?\n'),
             assert(asked_question(Question)),
-            %button(F)
-            whynot(Question)
+            whynot(Question),
+            %initial_fact_check(Question),
+            conversations(_,_)
+            
         ;   
         aggregate_all(count, y_computer_user(_,_), Count),
         A1 is P-Count-1,
@@ -92,80 +97,6 @@ reason_rule(Fact,F):-
     ;   
         write('Not a valid choice, try again...'), nl, fail).
 
-select_question:-
-    write('User:'),
-    prompt(_, ''),
-    read(N)   
-        -> 
-            (
-                assert(yr_computer_user(N,_A,F)),!,
-                write_w_list,
-                write_x_list,
-                aggregate_all(count, computer_ask_user(_,_), Num),
-                (   Num==0
-                ->  %write('Computer: This rule is used in deduction. Both computer and user are agree with this rule, please select another rule to find disagreement.\n'),
-                    write('Computer:  Why do you believe '),print_fact(F), write('? '),
-                    whynot(F)
-                    %reason_rule(F,_)
-                ;   computer_ask_user(Num,_F),
-                    choose(Num)
-                )
-             ;   
-                write('Computer: I found the disagreement! I do not have this rule'),
-                print_rule(N),write(', but the user has it.'), nl,
-                assert(different(user_rule(N,_,_))),!,conversations(false,_)
-            ).
-
-
-button(F):-
-    repeat,
-    write('\n----------Please state your reason----------\n'),
-    write_reason,
-    write('4. Restart to choose a reason\n'),
-    write('5. Choose another rule\n'),
-    write('6. Exit\n'),
-    write('User:'),
-    prompt(_, ''),
-    read(N),
-    (    N=:= 2
-    -> reason_rule(F,_)
-    ;     N=:= 3
-    -> reason_rule(F,_)
-    ;   N=:= 4
-    -> write('\nComputer: Why do you beleive '), print_fact(F), write('? '),
-        whynot(F)
-    ;   N=:= 5
-    -> reason_rule(F,_)
-    ;   N=:= 6
-    -> write('Computer:Bye\n')->halt
-    ;   
-        write('Not a valid choice, try again...'), nl, fail
-      ).
-
-
-option_whynot:-
-    write_w_list,
-    write_x_list,
-    aggregate_all(count, computer_ask_user(_,_), N),
-    computer_ask_user(N,_F),
-    choose(N).
-
-choose(0):-
-    write('----------FINISHED----------\n'),
-    write('Computer: Bye\n'), !,halt .
-choose(N):-
-    computer_ask_user(N,F),
-    assert(asked_question(F)),
-    Num is N-1,
-    ( n_computer_user(_,F)
-     ->  
-        write('Computer: Why do not you believe '),print_fact(F), write('?\n'),
-        write('User: Why do you believe '), print_fact(F),write('? '),
-        whynot(F),choose(Num)
-    ;   write('Computer: Why do you believe '),print_fact(F), write('? '),
-        whynot(F),choose(Num)
-    ),
-    choose(Num).
 
 check([],[]).
 check([not(H)|T], N):-
