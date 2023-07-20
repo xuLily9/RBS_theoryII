@@ -29,7 +29,7 @@ whynot(F):-
             )
         )
     ;    Number =:= 2
-    ->   reason_rule(F,_), nl, !
+    ->   reason_rule(F,_),nl, !
     ;    Number =:= 3
     ->  write('Computer: Bye\n')->halt
     ;
@@ -81,7 +81,7 @@ reason_rule(Fact,F):-
         aggregate_all(count, y_computer_user(_,_), Count),
         A1 is P-Count-1,
         n_computer_user(A1,Question2)
-         -> write('\nComputer: Why do not you believe '),print_fact(F), write('?\n'),
+         -> write('\nComputer: Why do not you believe '),print_fact(Question2), write('?\n'),
             write('\nUser: Because it is not an initial fact and can not be decuced from the rules.'),
             assert(asked_question(Question2)),nl, 
             conversations(_,_)
@@ -170,17 +170,20 @@ choose(N):-
 check([],[]).
 check([not(H)|T], N):-
     \+ deduce_user(H, _DAG),!, 
+    write(H),
     assert(n_computer_user(_,H)),
     check(T, N).
+
 check([H|T], [H|N]):-
     \+ deduce_user(H, _DAG),!, 
+    write(H),
     assert(n_computer_user(_,H)),
     check(T, N).
+
 check([H|T], N):-
     deduce_user(H,_DAG),
-    %write(H),
     (   \+y_computer_user(_,H)
-    ->
+    ->  
         aggregate_all(count, y_computer_user(_,_), Count4),
         Num is Count4 +1,
         assert(y_computer_user(Num,H))
