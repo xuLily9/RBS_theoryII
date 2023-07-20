@@ -77,11 +77,12 @@ write_whynot_list.
 
 write_w_list:-
     y_computer_user(N,F),
-   % \+ deduce_backwards(F,_),
+   %\+ deduce_backwards(F,_),
     \+ asked_question(F),
     %aggregate_all(count, computer_ask_user(_,_), Num),
-    assert(computer_ask_user(N, F)),
-    write(N),write(". Why do you believe "), print_fact(F), write("?"),nl,
+    %assert(computer_ask_user(N, F)),
+    N1 is N+1,
+    write(N1),write(". Why do you believe "), print_fact(F), write("?"),nl,
     fail.
 write_w_list.
 
@@ -92,7 +93,7 @@ write_x_list:-
     %deduce_backwards(F,_),
     \+ asked_question(F),
     aggregate_all(count, y_computer_user(_,_), Num),
-    N is Num +1,
+    N is Num +2,
     assert(computer_ask_user(N, F)),
     write(N), write(". Why don't you believe "), print_fact(F), write("?"),nl,
     fail.
