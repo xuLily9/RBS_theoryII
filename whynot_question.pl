@@ -60,9 +60,10 @@ reason_rule(Fact,F):-
     ->  write('\nComputer: Why do you believe '), print_fact(Fact), write('? '),
         whynot(Fact)
     ;   
-        user_rule(N, A, F),
+        user_rule(N, A, Fact),
+        %write(Fact),
         check(A, _),
-        write(A),
+       % write(A),
         write('\n----------Answer A QUESTION OR EXIT----------\n'),nl,
         write('1. I am satisfied. Exit\n'),
         write_w_list,
