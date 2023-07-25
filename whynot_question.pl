@@ -40,7 +40,7 @@ initial_fact_check(F):-
             )
         ).
 
-reason_rule(Fact,F):-
+reason_rule(Fact,_F):-
     repeat,
     write('\n-------Please select a rule number from related rule sets:-------\n'),nl,
     %write('User: Please select a rule number from related rule sets: '),nl,
@@ -63,7 +63,7 @@ reason_rule(Fact,F):-
         user_rule(N, A, Fact),
         %write(Fact),
         check(A, _),
-       % write(A),
+        %write(A),
         write('\n----------Answer A QUESTION OR EXIT----------\n'),nl,
         write('1. I am satisfied. Exit\n'),
         write_w_list,
@@ -81,11 +81,11 @@ reason_rule(Fact,F):-
             assert(asked_question(Question)),
             whynot(Question),
             %initial_fact_check(Question),
-            conversations(_,_)
+            %conversations(_,_)
             
         ;   
         aggregate_all(count, y_computer_user(_,_), Count),
-        A1 is P-Count-1,
+        A1 is P-Count,
         n_computer_user(A1,Question2)
          -> write('\nComputer: Why do not you believe '),print_fact(Question2), write('?\n'),
             write('\nUser: Because it is not an initial fact and can not be decuced from the rules.'),
@@ -102,18 +102,24 @@ reason_rule(Fact,F):-
 check([],[]).
 check([not(H)|T], N):-
     \+ deduce_user(H, _DAG),!, 
-    write(H),
-    assert(n_computer_user(_,H)),
+    %write(H),
+    %assert(n_computer_user(_,H)),
     check(T, N).
 
 check([H|T], [H|N]):-
     \+ deduce_user(H, _DAG),!, 
-    write(H),
-    assert(n_computer_user(_,H)),
+    %write(H),
+    (   %\+n_computer_user(_,H)
+    
+        aggregate_all(count, n_computer_user(_,_), Count1),
+        Number is Count1 +1,
+        assert(n_computer_user(Number,H))
+        ),
     check(T, N).
 
 check([H|T], N):-
     deduce_user(H,_DAG),
+    %write(H),
     (   \+y_computer_user(_,H)
     ->  
         aggregate_all(count, y_computer_user(_,_), Count4),
