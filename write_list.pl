@@ -89,11 +89,11 @@ write_w_list.
 
 
 write_x_list:-
-    n_computer_user(_,F),
+    n_computer_user(Number,F),
     %deduce_backwards(F,_),
     \+ asked_question(F),
     aggregate_all(count, y_computer_user(_,_), Num),
-    N is Num +2,
+    N is Number + Num+1,
     assert(computer_ask_user(N, F)),
     write(N), write(". Why don't you believe "), print_fact(F), write("?"),nl,
     fail.
