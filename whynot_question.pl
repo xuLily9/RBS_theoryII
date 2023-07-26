@@ -84,15 +84,15 @@ reason_rule(Fact,_F):-
             %conversations(_,_)
             
         ;   
-        aggregate_all(count, y_computer_user(_,_), Count),
-        A1 is P-Count,
-        n_computer_user(A1,Question2)
-         -> write('\nComputer: Why do not you believe '),print_fact(Question2), write('?\n'),
-            write('\nUser: Because it is not an initial fact and can not be decuced from the rules.'),
-            assert(asked_question(Question2)),nl, 
-            conversations(_,_)
+            aggregate_all(count, y_computer_user(_,_), Count),
+            A1 is P-Count-1,
+            n_computer_user(A1,Question2)
+             -> write('\nComputer: Why do not you believe '),print_fact(Question2), write('?\n'),
+                write('\nUser: Because it is not an initial fact and can not be decuced from the rules.'),
+                assert(asked_question(Question2)),nl 
+                %conversations(_,_)
          ;   
-        write('Not a valid choice, try again...'), nl,fail
+            write('Not a valid choice, try again...'), nl,fail
         )
   
     ;   
@@ -113,6 +113,7 @@ check([H|T], [H|N]):-
     
         aggregate_all(count, n_computer_user(_,_), Count1),
         Number is Count1 +1,
+       % write(Number),
         assert(n_computer_user(Number,H))
         ),
     check(T, N).
