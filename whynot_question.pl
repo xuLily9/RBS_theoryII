@@ -79,7 +79,7 @@ reason_rule(Fact,_F):-
             y_computer_user(N1, Question)
         ->  write('\nComputer: Why do you believe '),print_fact(Question), write('?\n'),
             assert(asked_question(Question)),
-            whynot(Question),
+            whynot(Question)
             %initial_fact_check(Question),
             %conversations(_,_)
             
