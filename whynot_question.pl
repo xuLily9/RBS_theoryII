@@ -59,8 +59,7 @@ reason_rule(Fact):-
         user_rule(N, A, Fact),
         check(A, _),
         user_question_list
-        %write(A),
-  
+        %write(A)
     ;   
         write('Not a valid choice, try again...'), nl, fail).
 
@@ -99,34 +98,23 @@ user_question_list:-
 
 check([],[]).
 check([not(H)|T], N):-
-    \+ deduce_user(H, _DAG),!, 
-    %write(H),
-    %assert(n_computer_user(_,H)),
+    \+ deduce_user(not(H), _DAG),!, 
+    aggregate_all(count, n_computer_user(_,_), Count1),
+    Number is Count1 +1,
+    assert(n_computer_user(Number,H)),
     check(T, N).
-
+check([not(H)|T], N):-
+    \+ deduce_user(H, _DAG),!, 
+    aggregate_all(count, n_computer_user(_,_), Count1),
+    Number is Count1 +1,
+    assert(n_computer_user(Number,H)),
+    check(T, N).
 check([H|T], [H|N]):-
-    \+ deduce_user(H, _DAG),!, 
-    %write(H),
-    (   %\+n_computer_user(_,H)
-    
-        aggregate_all(count, n_computer_user(_,_), Count1),
-        Number is Count1 +1,
-       % write(Number),
-        assert(n_computer_user(Number,H))
-        ),
-    check(T, N).
-
-check([H|T], N):-
     deduce_user(H,_DAG),
-    %write(H),
-    (   \+y_computer_user(_,H)
-    ->  
-        aggregate_all(count, y_computer_user(_,_), Count4),
-        Num is Count4 +1,
-        assert(y_computer_user(Num,H))
-    ;
-    check(T,N)
-    ).
+    aggregate_all(count, y_computer_user(_,_), Count4),
+    Num is Count4 +1,
+    assert(y_computer_user(Num,H)),
+    check(T,N).
 
 pretty_list([],"").
 pretty_list([Head|Tail],Out):-
