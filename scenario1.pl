@@ -1,3 +1,4 @@
+% The user and computer agree with the same reason 
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
 node(3,friend(alex,emma), initial_fact, []).
@@ -38,6 +39,7 @@ rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
 rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
 rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
+
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],choose_route(C)).
 
