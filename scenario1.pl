@@ -1,4 +1,5 @@
 % The user and computer agree with the same reason 
+%
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
 node(3,friend(alex,emma), initial_fact, []).
@@ -7,9 +8,6 @@ node(5,give_advice(forcast), initial_fact, []).
 node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
 node(8,need_gas(car), initial_fact, []).
-%node(8,road(00,10), initial_fact, []).
-%node(9,road(10,20), initial_fact, []).
-%node(10,road(20,30), initial_fact, []).
 node(9,gas(00), initial_fact, []).
 node(10,park(10), initial_fact, []).
 node(11,school(20), initial_fact, []).
@@ -51,11 +49,14 @@ rule(20,[major_city_event(X)],many_people(X)).
 rule(21,[many_people(X)],congestion(X)).
 rule(22,[congestion(X),cityroad(X)],valid_route(X)).
 
+% This is for route b
 rule(23,[narrow_road(X)],limited_road_capacity(X)).
 rule(24,[limited_road_capacity(X),more_traffic_light(X)],long_path(X)).
 rule(25,[not(long_path(X)),country_road(X)],valid_route(X)).
 
-conclusion(choose_route(c)).
+rule(15,[valid_route(C),prefer(C)],good_route(C)).
+
+conclusion(good_route(c)).
 
 user_fact(1,name(alex), initial_fact, []).
 user_fact(2,name(emma), initial_fact, []).
