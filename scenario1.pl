@@ -1,5 +1,5 @@
 % The user and computer agree with the same reason 
-%
+% in the city travel using bus, car, or taxi 
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
 node(3,friend(alex,emma), initial_fact, []).
@@ -50,9 +50,9 @@ rule(21,[many_people(X)],congestion(X)).
 rule(22,[congestion(X),cityroad(X)],valid_route(X)).
 
 % This is for route b
-rule(23,[narrow_road(X)],limited_road_capacity(X)).
-rule(24,[limited_road_capacity(X),more_traffic_light(X)],long_path(X)).
-rule(25,[not(long_path(X)),country_road(X)],valid_route(X)).
+
+rule(25,[less_traffic_light(X),highway_road(X)],shortest_path(X)).
+rule(25,[shortest_path(X)],valid_route(X)).
 
 rule(15,[valid_route(C),prefer(C)],good_route(C)).
 
