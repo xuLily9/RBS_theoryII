@@ -8,17 +8,19 @@ node(5,give_advice(forcast), initial_fact, []).
 node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
 node(8,need_gas(car), initial_fact, []).
+%node(8,road(00,10), initial_fact, []).
+%node(9,road(10,20), initial_fact, []).
+%node(10,road(20,30), initial_fact, []).
 node(9,gas(00), initial_fact, []).
 node(10,park(10), initial_fact, []).
 node(11,school(20), initial_fact, []).
 node(12,airport(30), initial_fact, []).
 node(13,green(c), initial_fact, []).
-node(14,drive(car), initial_fact, []).
+node(14,transport(car), initial_fact, []).
 node(15,highway(20,30), initial_fact, []).
-node(16,route_set(a,b,c), initial_fact, []).
 
 % fact for route a 
-node(17,football_team(mancity), initial_fact, []).
+%node(17,football_team(mancity), initial_fact, []).
 node(18,cityroad(a), initial_fact, []).
 node(19,celebrate(mancity), initial_fact, []).
 node(20,route_name(a), initial_fact, []).
@@ -43,9 +45,8 @@ rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
 rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
 rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
 rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
-rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
-
-rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X), drive(X)],valid_route(C)).
+rule(13,[transport(Y),need_gas(Y),gas(X)],gas_station(X)).
+rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 
 
 %This is for route a 
