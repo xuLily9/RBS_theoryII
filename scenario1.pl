@@ -116,8 +116,8 @@ user_rule(15,[football_team(Z)],champion(Z)).
 user_rule(16,[champion(Z),cityroad(Y)],parade(Z,Y)).
 user_rule(17,[parade(Z,Y),celebrate(Z)],special_event(Y)).
 user_rule(18,[special_event(Y)],major_city_event(Y)).
-user_rule(19,[major_city_event(Y)],many_cars(Y)).
-user_rule(20,[many_cars(Y)],congestion(Y)).
+user_rule(19,[major_city_event(Y)],many_people(Y)).
+user_rule(20,[many_people(Y)],congestion(Y)).
 user_rule(21,[cheapest(X)],slowest(X)).
 user_rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
@@ -125,17 +125,26 @@ user_rule(23,[not(strike(X)),ticket(X)],quickest(X)).
 user_rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 user_rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
 
-fact_description(narrow_road(X)):-
-   write(X), write(' is a narrow road').
-fact_description(country_road(X)):-
-    write(X), write(' is a country road').
-fact_description(more_traffic_light(X)):-
-    write('there are more traffic lights in this road '),write(X).
-fact_description(limited_road_capacity(X)):-
-    write(X),write(' has limited road capacity').
-fact_description(long_path(X)):-
-    write(X),write(' is a long path').
+fact_description(good_route(X)):-
+   write(X), write(' is a good route').
+fact_description(route_name(X)):-
+    write(X), write(' is the route name').
+fact_description(quickest(X)):-
+    write('this is the quickest '),write(X).
+fact_description(transport(X)):-
+    write(X),write(' is the transport method').
+fact_description(ticket(X)):-
+    write(X),write(' has avaliable ticket').
 
+fact_description(strike(X)):-
+    write('the staff of '), write(X), write(' is on strike').
+fact_description(not(strike(X))):-
+    write('the staff of '), write(X), write(' is not on strike').
+
+fact_description(cheapest(X)):-
+    write(X), write(' is the cheapest way').
+fact_description(slowest(X))):-
+    write(X), write(' is the slowest route').
 fact_description(football_team(X)):-
     write('the name of ffotball team is '), write(X).
 fact_description(cityroad(X)):-
@@ -253,29 +262,30 @@ rule_description(13):-
     write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station').
 rule_description(14):-
     write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
-rule_description(15):-
-    write('15. If there is a route set, only one of them is valid, then he/she will choose that route').
 
+
+rule_description(15):-
+    write('15. If there is a footable team win the final match, then this footbal team is the champion').
 rule_description(16):-
-    write('16. If there is a footable team win the final match, then this footbal team is the champion').
+    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
 rule_description(17):-
-    write('17. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
 rule_description(18):-
-    write('18. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('18. If this is a special event, then this is also a major city event').
 rule_description(19):-
-    write('19. If this is a special event, then this is also a major city event').
+    write('19. If there is a major city event, then there are lots of people').
 rule_description(20):-
-    write('20. If there is a major city event, then there are lots of people').
+    write('20. If there are lots of people, then there is a congestion').
 rule_description(21):-
-    write('21. If there are lots of people, then there is a congestion').
+    write('21. If this is the cheapest transport method then this is the slowest').
 rule_description(22):-
-    write('22. If there is no congestion in this route and this route is a city road, then this road is valid').
+    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
 rule_description(23):-
-    write('23. If there is a narrow road, then this road has limited road capacity').
+    write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 rule_description(24):-
-    write('24. If there this road has limited capacity and it has more traffic lights, then this road is a long path').
+    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
 rule_description(25):-
-    write('25. If there is a short path and it is a country road, then this road is valid').
+    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
 
 %% Pretty print the system rules 
 r_description(1):-
@@ -308,27 +318,27 @@ r_description(13):-
 r_description(14):-
     write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
 r_description(15):-
-    write('15. If there is a route set, only one of them is valid, then he/she will choose that route').
+    write('15. If there is a footable team win the final match, then this footbal team is the champion').
 r_description(16):-
-    write('16. If there is a footable team win the final match, then this footbal team is the champion').
+    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
 r_description(17):-
-    write('17. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
 r_description(18):-
-    write('18. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('18. If this is a special event, then this is also a major city event').
 r_description(19):-
-    write('19. If this is a special event, then this is also a major city event').
+    write('19. If there is a major city event, then there are lots of people').
 r_description(20):-
-    write('20. If there is a major city event, then there are lots of people').
+    write('20. If there are lots of people, then there is a congestion').
 r_description(21):-
-    write('21. If there are lots of people, then there is a congestion').
+    write('21. If this is the cheapest transport method then this is the slowest').
 r_description(22):-
-    write('22. If there is no congestion in this route and this route is a city road, then this road is valid').
+    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
 r_description(23):-
-    write('23. If there is a narrow road, then this road has limited road capacity').
+    write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 r_description(24):-
-    write('24. If there this road has limited capacity and it has more traffic lights, then this road is a long path').
+    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
 r_description(25):-
-    write('25. If there is a short path and it is a country road, then this road is valid').
+    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
 
 
 system_rule(Rule):-
