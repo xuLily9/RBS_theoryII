@@ -16,13 +16,20 @@ node(13,green(c), initial_fact, []).
 node(14,drive(car), initial_fact, []).
 node(15,highway(20,30), initial_fact, []).
 node(16,route_set(a,b,c), initial_fact, []).
+
+% fact for route a 
 node(17,football_team(mancity), initial_fact, []).
 node(18,cityroad(a), initial_fact, []).
 node(19,celebrate(mancity), initial_fact, []).
-node(20,narrow_road(b), initial_fact, []).
-node(21,more_traffic_light(b), initial_fact, []).
-node(22,country_road(b), initial_fact, []).
+node(20,route_name(a), initial_fact, []).
+node(21,transport(bus), initial_fact, []).
+node(22,cheapest(bus), initial_fact, []).
 
+%fact for route b
+node(20,strike(train), initial_fact, []).
+node(20,ticket(train), initial_fact, []).
+node(21,transport(train), initial_fact, []).
+node(22,route_name(b), initial_fact, []).
 
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -41,18 +48,17 @@ rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X), drive(X)],valid_route(C)).
 
 
-rule(16,[football_team(Y)],champion(Y)).
-rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
-rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
-rule(19,[special_event(X)],major_city_event(X)).
-rule(20,[major_city_event(X)],many_people(X)).
-rule(21,[many_people(X)],congestion(X)).
-rule(22,[congestion(X),train(X)],valid_route(X)).
+%This is for route a 
+rule(16,[football_team(Z)],champion(Z)).
+rule(17,[champion(Z),cityroad(Y)],parade(Z,Y)).
+rule(18,[parade(Z,Y),celebrate(Z)],special_event(Y)).
+rule(19,[special_event(Y)],major_city_event(Y)).
+rule(20,[major_city_event(Y)],many_cars(Y)).
+rule(21,[many_cars(Y)],congestion(Y)).
+rule(22,[cheapest(X)],slowest(X)).
+rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
-node(20,strike(train), initial_fact, []).
-node(20,ticket(train), initial_fact, []).
-node(21,transport(train), initial_fact, []).
-node(22,route_name(b), initial_fact, []).
+
 % This is for route b
 rule(25,[not(strike(X)),ticket(X)],quickest(X)).
 rule(25,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
