@@ -143,7 +143,7 @@ fact_description(not(strike(X))):-
 
 fact_description(cheapest(X)):-
     write(X), write(' is the cheapest way').
-fact_description(slowest(X))):-
+fact_description(slowest(X)):-
     write(X), write(' is the slowest route').
 fact_description(football_team(X)):-
     write('the name of ffotball team is '), write(X).
