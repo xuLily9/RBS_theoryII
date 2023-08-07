@@ -1,4 +1,5 @@
 % The user and computer agree with the same reason 
+% city center to airport, there are some options: train, drive or bus
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
 node(3,friend(alex,emma), initial_fact, []).
@@ -37,7 +38,8 @@ rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
 rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 
-rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X), drive(X)],valid_route(C)).
+
 
 rule(16,[football_team(Y)],champion(Y)).
 rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
@@ -45,17 +47,19 @@ rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
 rule(19,[special_event(X)],major_city_event(X)).
 rule(20,[major_city_event(X)],many_people(X)).
 rule(21,[many_people(X)],congestion(X)).
-rule(22,[congestion(X),cityroad(X)],valid_route(X)).
+rule(22,[congestion(X),train(X)],valid_route(X)).
 
+node(20,strike(train), initial_fact, []).
+node(20,ticket(train), initial_fact, []).
+node(21,transport(train), initial_fact, []).
+node(22,route_name(b), initial_fact, []).
 % This is for route b
+rule(25,[not(strike(X)),ticket(X)],quickest(X)).
+rule(25,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
-rule(25,[less_traffic_light(X),highway_road(X)],shortest_path(X)).
-rule(25,[shortest_path(X)],valid_route(X)).
-rule(25,[shortest_path(X)],quickest(X)).
+rule(15,[valid_route(X)],good_route(X)).
 
-rule(15,[valid_route(C),quickest(C)],good_route(C)).
-
-conclusion(good_route(c)).
+conclusion(good_route(b)).
 
 user_fact(1,name(alex), initial_fact, []).
 user_fact(2,name(emma), initial_fact, []).
