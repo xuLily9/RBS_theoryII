@@ -20,18 +20,18 @@ node(14,transport(car), initial_fact, []).
 node(15,highway(20,30), initial_fact, []).
 
 % fact for route a 
-%node(17,football_team(mancity), initial_fact, []).
-node(18,cityroad(a), initial_fact, []).
-node(19,celebrate(mancity), initial_fact, []).
-node(20,route_name(a), initial_fact, []).
-node(21,transport(bus), initial_fact, []).
-node(22,cheapest(bus), initial_fact, []).
+node(16,football_team(mancity), initial_fact, []).
+node(17,cityroad(a), initial_fact, []).
+node(18,celebrate(mancity), initial_fact, []).
+node(19,route_name(a), initial_fact, []).
+node(20,transport(bus), initial_fact, []).
+node(21,cheapest(bus), initial_fact, []).
 
 %fact for route b
-node(20,strike(train), initial_fact, []).
-node(20,ticket(train), initial_fact, []).
-node(21,transport(train), initial_fact, []).
-node(22,route_name(b), initial_fact, []).
+node(22,strike(train), initial_fact, []).
+node(23,ticket(train), initial_fact, []).
+node(24,transport(train), initial_fact, []).
+node(25,route_name(b), initial_fact, []).
 
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -50,21 +50,21 @@ rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(
 
 
 %This is for route a 
-rule(16,[football_team(Z)],champion(Z)).
-rule(17,[champion(Z),cityroad(Y)],parade(Z,Y)).
-rule(18,[parade(Z,Y),celebrate(Z)],special_event(Y)).
-rule(19,[special_event(Y)],major_city_event(Y)).
-rule(20,[major_city_event(Y)],many_cars(Y)).
-rule(21,[many_cars(Y)],congestion(Y)).
-rule(22,[cheapest(X)],slowest(X)).
+rule(15,[football_team(Z)],champion(Z)).
+rule(16,[champion(Z),cityroad(Y)],parade(Z,Y)).
+rule(17,[parade(Z,Y),celebrate(Z)],special_event(Y)).
+rule(18,[special_event(Y)],major_city_event(Y)).
+rule(19,[major_city_event(Y)],many_cars(Y)).
+rule(20,[many_cars(Y)],congestion(Y)).
+rule(21,[cheapest(X)],slowest(X)).
 rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
 
 % This is for route b
-rule(25,[not(strike(X)),ticket(X)],quickest(X)).
-rule(25,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
+rule(23,[not(strike(X)),ticket(X)],quickest(X)).
+rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
-rule(15,[valid_route(X)],good_route(X)).
+rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
 
 conclusion(good_route(b)).
 
@@ -86,13 +86,16 @@ user_fact(12,airport(30), initial_fact, []).
 user_fact(13,green(c), initial_fact, []).
 user_fact(14,drive(car), initial_fact, []).
 user_fact(15,highway(20,30), initial_fact, []).
-user_fact(16,route_set(a,b,c), initial_fact, []).
-user_fact(17,football_team(mancity), initial_fact, []).
-user_fact(18,cityroad(a), initial_fact, []).
-user_fact(19,celebrate(mancity), initial_fact, []).
-user_fact(20,narrow_road(b), initial_fact, []).
-user_fact(21,more_traffic_light(b), initial_fact, []).
-user_fact(22,country_road(b), initial_fact, []).
+user_fact(16,football_team(mancity), initial_fact, []).
+user_fact(17,cityroad(a), initial_fact, []).
+user_fact(18,celebrate(mancity), initial_fact, []).
+user_fact(19,route_name(a), initial_fact, []).
+user_fact(20,transport(bus), initial_fact, []).
+user_fact(21,cheapest(bus), initial_fact, []).
+user_fact(22,strike(train), initial_fact, []).
+user_fact(23,ticket(train), initial_fact, []).
+user_fact(24,transport(train), initial_fact, []).
+user_fact(25,route_name(b), initial_fact, []).
 
 user_rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 user_rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -109,18 +112,18 @@ user_rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
 user_rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 user_rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 user_rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
-user_rule(15,[route_set(A,B,C),valid_route(C),not(valid_route(A)),not(valid_route(B))],choose_route(C)).
-user_rule(16,[football_team(Y)],champion(Y)).
-user_rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
-user_rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
-user_rule(19,[special_event(X)],major_city_event(X)).
-user_rule(20,[major_city_event(X)],many_people(X)).
-user_rule(21,[many_people(X)],congestion(X)).
-user_rule(22,[not(congestion(X)),cityroad(X)],valid_route(X)).
+user_rule(15,[football_team(Z)],champion(Z)).
+user_rule(16,[champion(Z),cityroad(Y)],parade(Z,Y)).
+user_rule(17,[parade(Z,Y),celebrate(Z)],special_event(Y)).
+user_rule(18,[special_event(Y)],major_city_event(Y)).
+user_rule(19,[major_city_event(Y)],many_cars(Y)).
+user_rule(20,[many_cars(Y)],congestion(Y)).
+user_rule(21,[cheapest(X)],slowest(X)).
+user_rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
-user_rule(23,[narrow_road(X)],limited_road_capacity(X)).
-user_rule(24,[limited_road_capacity(X),more_traffic_light(X)],long_path(X)).
-user_rule(25,[not(long_path(X)),country_road(X)],valid_route(X)).
+user_rule(23,[not(strike(X)),ticket(X)],quickest(X)).
+user_rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
+user_rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
 
 fact_description(narrow_road(X)):-
    write(X), write(' is a narrow road').
