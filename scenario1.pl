@@ -1,5 +1,4 @@
 % The user and computer agree with the same reason 
-% in the city travel using bus, car, or taxi 
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
 node(3,friend(alex,emma), initial_fact, []).
@@ -39,7 +38,6 @@ rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
-rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],choose_route(C)).
 
 rule(16,[football_team(Y)],champion(Y)).
 rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
@@ -53,8 +51,9 @@ rule(22,[congestion(X),cityroad(X)],valid_route(X)).
 
 rule(25,[less_traffic_light(X),highway_road(X)],shortest_path(X)).
 rule(25,[shortest_path(X)],valid_route(X)).
+rule(25,[shortest_path(X)],quickest(X)).
 
-rule(15,[valid_route(C),prefer(C)],good_route(C)).
+rule(15,[valid_route(C),quickest(C)],good_route(C)).
 
 conclusion(good_route(c)).
 
