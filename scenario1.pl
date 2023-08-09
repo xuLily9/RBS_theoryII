@@ -61,7 +61,9 @@ rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
 
 % This is for route b
-rule(23,[not(strike(X)),ticket(X)],quickest(X)).
+%rule(23,[not(strike(X)),ticket(X)],quickest(X)).
+rule(23,[ticket(X)],quickest(X)).
+
 rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
 rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
@@ -120,8 +122,8 @@ user_rule(19,[major_city_event(Y)],many_people(Y)).
 user_rule(20,[many_people(Y)],congestion(Y)).
 user_rule(21,[cheapest(X)],slowest(X)).
 user_rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
-
-user_rule(23,[not(strike(X)),ticket(X)],quickest(X)).
+user_rule(23,[ticket(X)],quickest(X)).
+%user_rule(23,[not(strike(X)),ticket(X)],quickest(X)).
 user_rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 user_rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
 
@@ -281,7 +283,8 @@ rule_description(21):-
 rule_description(22):-
     write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
 rule_description(23):-
-    write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
+    write('23. If it has avaliable ticket, then this is the quickest transport method.').
+    %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 rule_description(24):-
     write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
 rule_description(25):-
