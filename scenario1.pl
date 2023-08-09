@@ -1,5 +1,5 @@
 % The user and computer agree with the same reason 
-% city center to airport, there are some options: train, drive or bus
+% From city center to airport, there are some options: train, drive or bus
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
 node(3,friend(alex,emma), initial_fact, []).
