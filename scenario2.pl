@@ -1,10 +1,13 @@
 % The user and computer agree with the different reason 
-% From London to Paris: flying, by eurostar, by car 
-node(1,name(alex), initial_fact, []).
-node(2,name(emma), initial_fact, []).
-node(3,friend(alex,emma), initial_fact, []).
-node(4,call(alex,emma), initial_fact, []).
-node(5,give_advice(forcast), initial_fact, []).
+% From London to Paris: flying, by train, by car 
+node(1,name(sarah), initial_fact, []).
+node(2,name(jack), initial_fact, []).
+node(22,city(london), initial_fact, []).
+node(24,city(manchester), initial_fact, []).
+node(23,ticket(flight), initial_fact, []).
+node(23,direct(flight), initial_fact, []).
+node(25,route_name(a), initial_fact, []).
+
 node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
 node(8,need_gas(car), initial_fact, []).
@@ -20,20 +23,28 @@ node(14,transport(car), initial_fact, []).
 node(15,highway(20,30), initial_fact, []).
 
 % fact for route a 
-node(16,football_team(mancity), initial_fact, []).
-node(17,cityroad(a), initial_fact, []).
-node(18,celebrate(mancity), initial_fact, []).
-node(19,route_name(a), initial_fact, []).
-node(20,transport(bus), initial_fact, []).
-node(21,cheapest(bus), initial_fact, []).
+
+
+node(25,route_name(a), initial_fact, []).
 
 %fact for route b
-node(22,strike(train), initial_fact, []).
-node(23,ticket(train), initial_fact, []).
-node(24,transport(train), initial_fact, []).
-node(25,route_name(b), initial_fact, []).
 
-rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
+%rule(12,[forcast_rain(X)],weather_bad(X)).
+%rule(13,[forcast_storm(X)],weather_bad(X)).
+
+
+rule(1,[name(A),name(B)],friend(A,B)).
+rule(1,[name(A),city(X)],live(A,X)).
+rule(1,[friend(A,B),live(A,X),live(B,Y)],travel(A,B)).
+rule(23,[city(A), city(B), travel(A,B), ticket(X)],transport(X)).
+rule(14,[forcast_sunny(X)],weather_good(X)).
+
+rule(23,[direct(X)],expensive(X)).
+rule(23,[transfer(X),cheap(X)],slowest(X)).
+rule(23,[expensive(X)],quickest(X)).
+rule(24,[transport(X),route_name(Y),weather_good(X),quickest(X)],valid_route(Y)).
+
+
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
 rule(3,[smile(W)],predict_sunny(W)).
 rule(4,[predict_sunny(W),download(X,W)],weather_sunny(X)).
@@ -50,27 +61,27 @@ rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(
 
 
 %This is for route a 
-rule(15,[football_team(Z)],champion(Z)).
-rule(16,[champion(Z),cityroad(Y)],parade(Z,Y)).
-rule(17,[parade(Z,Y),celebrate(Z)],special_event(Y)).
-rule(18,[special_event(Y)],major_city_event(Y)).
-rule(19,[major_city_event(Y)],many_cars(Y)).
-rule(20,[many_cars(Y)],congestion(Y)).
-rule(21,[cheapest(X)],slowest(X)).
-rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
+
+
+
 
 
 % the flight for route b
 
-rule(23,[city(A), city(B), travel(A,B), ticket(X)],transport(X)).
-rule(7,[direct(A,B),direct(B,C)],indirect(A,C)).
-rule(23,[ticket(X),direct(X)],expensive(X)).
-rule(23,[ticket(X),indirect(X)],cheap(X)).
-rule(23,[cheap(X)],slowest(X)).
-rule(23,[expensive(X)],quickest(X)).
+node(23,license(car), initial_fact, []).
+node(25,drive(car), initial_fact, []).
+node(25,route_name(b), initial_fact, []).
+
+rule(23,[license(X)],transport(X)).
+rule(23,[drive(X)],slowest(X)).
+rule(24,[transport(X),slowest(X),route_name(Y)],valid_route(Y)).
 
 
-rule(24,[transport(X),route_name(Y)],valid_route(Y)).
+
+
+
+%rule(7,[direct(A,B),direct(B,C)],indirect(A,C)).
+%rule(23,[ticket(X),indirect(X)],cheap(X)).
 
 rule(25,[valid_route(X)],good_route(X)).
 
