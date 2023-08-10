@@ -127,114 +127,77 @@ user_rule(24,[transport(X),slowest(X),route_name(Y)],valid_route(Y)).
 
 user_rule(25,[valid_route(X)],good_route(X)).
 
-fact_description(good_route(X)):-
-   write(X), write(' is a good route').
-fact_description(route_name(X)):-
-    write(X), write(' is the route name').
-fact_description(quickest(X)):-
-    write('this is the quickest '),write(X).
-fact_description(transport(X)):-
-    write(X),write(' is the transport method').
-fact_description(ticket(X)):-
-    write(X),write(' has avaliable ticket').
-
-fact_description(strike(X)):-
-    write('the staff of '), write(X), write(' is on strike').
-fact_description(not(strike(X))):-
-    write('the staff of '), write(X), write(' is not on strike').
-
-fact_description(cheapest(X)):-
-    write(X), write(' is the cheapest way').
-fact_description(slowest(X)):-
-    write(X), write(' is the slowest route').
-fact_description(football_team(X)):-
-    write('the name of ffotball team is '), write(X).
-fact_description(cityroad(X)):-
-    write(X), write(' is a city road').
-fact_description(celebrate(X)):-
-    write(X), write(' is celebrated ').
-fact_description(champion(X)):-
-    write(X),write(' is the champion').
-fact_description(parade(Y,X)):-
-     write(' there is a parade about football team'), write(Y), write(' in city road'),write(X).
-fact_description(special_event(X)):-
-    write('there is a special event in road '),write(X).
-fact_description(major_city_event(X)):-
-    write('there is a major city event in road '),write(X).
-fact_description(many_people(X)):-
-    write('there are lots of people in road '),write(X).
-%fact_description(congestion(X)):-
-    %write('there is congestion in road '),write(X).
-fact_description(congestion(Y)):-
-    write('in location '), write(Y), write(' ,there is a congestion').
-
 fact_description(name(X)):-
     write('his/her name is '), write(X).
 fact_description(friend(X,Y)):-
     write(X), write(' and '),write(Y),write(' are friends').
-fact_description(call(X,Y)):-
-    write(X), write(' called '),write(Y).
-fact_description(give_advice(X)):-
-     write('his/her firends gave advice about app called '),write(X).
-fact_description(app(X)):-
-    write('app name is '),write(X).
-fact_description(smile(X)):-
-    write('there is a smile emoji showed on app '),write(X).
-
-fact_description(need_gas(X)):-
-    write(X), write(' needs gas').
+fact_description(live(X,A)):-
+    write(X), write(' lives in city '),write(A).
+fact_description(travel(X,Y)):-
+    write('travel from city '),write(X), write(' to city '),write(Y).
+fact_description(city(X)):-
+    write(X), write(' is a city ').
+fact_description(available(X)):-
+     write(X), write(' has available tickets').
+fact_description(hotel(X)):-
+    write(X), write(' is a hotel').
 fact_description(road(X,Y)):-
     write('we choose this road from '), write(X), write(' to '),write(Y).
-fact_description(gas_station(X)):-
-    write('gas station is at location '),write(X).
-fact_description(gas(X)):-
-   write(X), write(' has gas').
-fact_description(park(X)):-
-    write('park is at location '),write(X).
-fact_description(school(X)):-
-    write('school is at location '),write(X).
+fact_description(museum(X)):-
+    write(X), write(' is a museum').
+fact_description(luggage(X)):-
+    write(X), write(' is a luggage storage').
 fact_description(airport(X)):-
     write('airport is at location '),write(X).
-fact_description(green(X)):-
-    write('the app shows route '),write(X),write(' is green').
+fact_description(forcast_sunny(X)):-
+    write('it is a sunny day for'),write(X).
+fact_description(weather_good(X)):-
+    write('it is a good weather for taking '),write(X).
+fact_description(forcast_rain(X)):-
+    write('it is a rainy day for'),write(X).
+fact_description(weather_bad(X)):-
+    write('it is a bad weather for taking '),write(X).
+fact_description(forcast_storm(X)):-
+    write('it is a storm for'),write(X).
 fact_description(drive(X)):-
     write('he/She can dive'),write(X).
+fact_description(transport(X)):-
+    write(X),write(' is the transport method').
+fact_description(route_name(X)):-
+    write(X), write(' is the route name').
+fact_description(not(congestion(Y))):-
+    write('in location '), write(Y), write(',there is no congestion').
 
-fact_description(take_advice(X,W)):-
-   write(X), write(' took the advice about '),write(W).
-fact_description(download(X,W)):-
-   write(X), write(' downloaded the app '),write(W).
-fact_description(predict_sunny(W)):-
-    write(W),write('predictes it is a sunny day').
-fact_description(light_traffic(X)):-
-    write(X),write(' route has light traffic').
 fact_description(direct_route(X,Y)):-
     write('it is a direct road from '), write(X), write(' to '),write(Y).
 fact_description(indirect_route(X,Y)):-
     write('it is an indirect road from '), write(X), write(' to '),write(Y).
 fact_description(find_route(X, Y)):-
     write('we find aroute from '), write(X), write(' to '),write(Y).
-fact_description(not(congestion(Y))):-
-    write('in route '), write(Y), write(',there is no congestion').
 
-fact_description(weather_sunny(X)):-
-    write(X), write(' knows it is a sunny day').
-fact_description(peak_hours(X)):-
-    write('it is the peak hours for '),write(X).
-fact_description(not(peak_hours(X))):-
-    write('it is not the peak hours for '),write(X).
-fact_description(highway(X,Y)):-
-    write('from '),write(X),write(' to '),write(Y),write(' is a highway road').
 
-fact_description(choose_route(X)):-
-    write('he/she will choose the route: '), write(X).
-fact_description(route_set(A,B,C)):-
-    write(A),write(','),write(B),write(','),write(C), write(' is a route set').
-    
+fact_description(christmas(X)):-
+    write(X), write(' is taken during christmas period').
+fact_description(many_people(X)):-
+    write('there are lots of people in road '),write(X).
+fact_description(holiday(X)):-
+    write(X), write(' is taken on holiday').
+fact_description(expensive(X)):-
+    write(X), write(' is expensive').
+fact_description(ticket(X)):-
+    write(X),write(' has avaliable tickets').
 fact_description(valid_route(X)):-
     write(X), write(' is a valid route').
-fact_description(not(valid_route(X))):-
-    write(X), write(' is not a valid route').
+
+
+fact_description(slowest(X)):-
+    write(X), write(' is the slowest route').
+fact_description(license(X)):-
+    write('he/she has the license of '),write(X).
+
+fact_description(good_route(X)):-
+   write(X), write(' is a good route').
+
 
 rule_description(1):-
     write('1. If two friends talk on the phone and one of them offers advice, then the other buddy follows that advice.').
