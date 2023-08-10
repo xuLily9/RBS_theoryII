@@ -1,5 +1,5 @@
 % The user and computer agree with the different reason 
-% From London to Paris: flying, by train, by car 
+% From manchester to london: flying, by train, by car 
 node(1,name(sarah), initial_fact, []).
 node(2,name(jack), initial_fact, []).
 node(3,hotel(00), initial_fact, []).
