@@ -172,6 +172,10 @@ fact_description(direct_route(X,Y)):-
     write('it is a direct road from '), write(X), write(' to '),write(Y).
 fact_description(indirect_route(X,Y)):-
     write('it is an indirect road from '), write(X), write(' to '),write(Y).
+fact_description(direct(X,Y)):-
+    write('it is a direct transport from city '), write(X), write(' to city '),write(Y).
+fact_description(indirect(X,Y)):-
+    write('it is an indirect transport from city '), write(X), write(' to city '),write(Y).
 fact_description(find_route(X, Y)):-
     write('we find aroute from '), write(X), write(' to '),write(Y).
 
@@ -200,15 +204,15 @@ fact_description(good_route(X)):-
 
 
 rule_description(1):-
-    write('1. If two friends talk on the phone and one of them offers advice, then the other buddy follows that advice.').
+    write('1. If there are names of two person, then they are friends').
 rule_description(2):-
-    write('2. If one person take the advice about an app, then this person downloaded that app').
+    write('2. If a person with name and a city name, then he/she lives in this city is true').
 rule_description(3):-
-    write('3. If there is a smile emogi in the app, then this app predict it is a sunny day').
+    write('3. If a person live in a city and another person lives in another city, these two persons are friends, then one person wats to travel from his city to another city').
 rule_description(4):-
-    write('4. If one person download an app and this app predicted it is a sunny day, then this person knows today is a sunny day'). 
+    write('4. If there are twi cities and a person wants to travel from one to another, there is avaliable tickets on a method, then this method is a transport').
 rule_description(5):-
-    write('5. If it shows green about an route, then there is light traffic on this route').
+    write('5. If the forcast is sunny for a transport, then the weather is good for a transport').
 rule_description(6):-
     write('6. If there is a direct road connecting two locations, then this is the direct route.').
 rule_description(7):-
@@ -218,93 +222,95 @@ rule_description(8):-
 rule_description(9):-
     write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
 rule_description(10):-
-    write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park').
+    write('10. If there is a hotel, and a museum there is no congestion near the museum, then we choose the road bewteen hotel and museum').
 rule_description(11):-
-    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
+    write('11. If there is a museum and the person needs to pick up his luggage in storage, then we choose the road between museum and luggage storage').
 rule_description(12):-
-    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
+    write('12. If there is a lugguge storage and a airport, then we choose this road between luggage and airport').
+
+
 rule_description(13):-
-    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station').
+    write('13. If the transport method is part of a route from hotel to airport, we can find this route, and the weather is good, then this route is a valid route').
 rule_description(14):-
-    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
-
-
+    write('14. If the forcast is rainy for a transport, then the weather is bad for a transport').
 rule_description(15):-
-    write('15. If there is a footable team win the final match, then this footbal team is the champion').
+    write('15. If the forcast is storm for a transport, then the weather is bad for a transport').
+
 rule_description(16):-
-    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('16. If we travel from city to another city, there is only indirect the transport method, then this transport has avaliable tickets').
 rule_description(17):-
-    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('17. If there are one connecting way from city A to city B and another connecting way from city B to city C, then there exists an indirect transport from city A to city C.').
 rule_description(18):-
-    write('18. If this is a special event, then this is also a major city event').
+    write('18. If there is a christmas period for a transport, then this is also a holiday for a transport').
 rule_description(19):-
-    write('19. If there is a major city event, then there are lots of people').
+    write('19. If there is a holiday for a transport, then there are lots of people').
 rule_description(20):-
-    write('20. If there are lots of people, then there is a congestion').
+    write('20. If there are lots of people, then the transport ticket is expensive').
 rule_description(21):-
-    write('21. If this is the cheapest transport method then this is the slowest').
+    write('21. If this is transport is expensive and is part of a route, and has avaliable tickets then this is a valid route').
 rule_description(22):-
-    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
+    write('22. If a person has a license of a method, then this method is transport method.').
 rule_description(23):-
-    write('23. If it has avaliable ticket, then this is the quickest transport method.').
-    %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
+    write('23. If this transport is the drive a method, then this transport is the slowest.').
 rule_description(24):-
-    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
+    write('24. If there is a transport method, is the slowest and is part of a route then this route is a valid route.').
 rule_description(25):-
-    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
+    write('25. If there is a valid route, then this route is a good route.').
 
 %% Pretty print the system rules 
 r_description(1):-
-    write('1. If two friends talk on the phone and one of them offers advice, then the other buddy follows that advice.'),nl.
+    write('1. If there are names of two person, then they are friends').
 r_description(2):-
-    write('2. If one person take the advice about an app, then this person downloaded that app'),nl.
+    write('2. If a person with name and a city name, then he/she lives in this city is true').
 r_description(3):-
-    write('3. If there is a smile emogi in the app, then this app predict it is a sunny day'),nl.
+    write('3. If a person live in a city and another person lives in another city, these two persons are friends, then one person wats to travel from his city to another city').
 r_description(4):-
-    write('4. If one person download an app and this app predicted it is a sunny day, then this person knows today is a sunny day'),nl. 
+    write('4. If there are twi cities and a person wants to travel from one to another, there is avaliable tickets on a method, then this method is a transport').
 r_description(5):-
-    write('5. If it shows green about an route, then there is light traffic on this route'),nl.
+    write('5. If the forcast is sunny for a transport, then the weather is good for a transport').
 r_description(6):-
-    write('6. If there is a direct road connecting two locations, then this is the direct route.'),nl.
+    write('6. If there is a direct road connecting two locations, then this is the direct route.').
 r_description(7):-
-    write('7. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.'),nl.
+    write('7. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.').
 r_description(8):-
-    write('8. If there is a direct road connecting two locations, then we find the route between this two locations'),nl.
+    write('8. If there is a direct road connecting two locations, then we find the route between this two locations').
 r_description(9):-
-    write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.'),nl.
+    write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
 r_description(10):-
-    write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park'),nl.
+    write('10. If there is a hotel, and a museum there is no congestion near the museum, then we choose the road bewteen hotel and museum').
 r_description(11):-
-    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
-
+    write('11. If there is a museum and the person needs to pick up his luggage in storage, then we choose the road between museum and luggage storage').
 r_description(12):-
-    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
+    write('12. If there is a lugguge storage and a airport, then we choose this road between luggage and airport').
+
+
 r_description(13):-
-    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station'),nl.
+    write('13. If the transport method is part of a route from hotel to airport, we can find this route, and the weather is good, then this route is a valid route').
 r_description(14):-
-    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
+    write('14. If the forcast is rainy for a transport, then the weather is bad for a transport').
 r_description(15):-
-    write('15. If there is a footable team win the final match, then this footbal team is the champion').
+    write('15. If the forcast is storm for a transport, then the weather is bad for a transport').
+
 r_description(16):-
-    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('16. If we travel from city to another city, there is only indirect the transport method, then this transport has avaliable tickets').
 r_description(17):-
-    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('17. If there are one connecting way from city A to city B and another connecting way from city B to city C, then there exists an indirect transport from city A to city C.').
 r_description(18):-
-    write('18. If this is a special event, then this is also a major city event').
+    write('18. If there is a christmas period for a transport, then this is also a holiday for a transport').
 r_description(19):-
-    write('19. If there is a major city event, then there are lots of people').
+    write('19. If there is a holiday for a transport, then there are lots of people').
 r_description(20):-
-    write('20. If there are lots of people, then there is a congestion').
+    write('20. If there are lots of people, then the transport ticket is expensive').
 r_description(21):-
-    write('21. If this is the cheapest transport method then this is the slowest').
+    write('21. If this is transport is expensive and is part of a route, and has avaliable tickets then this is a valid route').
 r_description(22):-
-    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
+    write('22. If a person has a license of a method, then this method is transport method.').
 r_description(23):-
-    write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
+    write('23. If this transport is the drive a method, then this transport is the slowest.').
 r_description(24):-
-    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
+    write('24. If there is a transport method, is the slowest and is part of a route then this route is a valid route.').
 r_description(25):-
-    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
+    write('25. If there is a valid route, then this route is a good route.').
 
 
 system_rule(Rule):-
