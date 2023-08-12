@@ -10,15 +10,13 @@ node(7,live(sarah,manchester), initial_fact, []).
 node(8,live(jack,london), initial_fact, []).
 node(9,available(flight), initial_fact, []).
 node(10,forcast_sunny(flight), initial_fact, []).
-node(11,route_name(c), initial_fact, []).
+node(23,transport(flight), initial_fact, []).
+
+node(24,light_traffic(c), initial_fact, []).
 % fact for route a 
-node(12,city(london), initial_fact, []).
-node(13,city(manchester), initial_fact, []).
-node(14,city(birminghan), initial_fact, []).
-node(15,direct(manchester,birminghan), initial_fact, []).
-node(16,direct(birminghan,london), initial_fact, []).
-node(17,transport(train), initial_fact, []).
-node(18,christmas(train), initial_fact, []).
+node(19,transport(train), initial_fact, []).
+node(18,holiday(a), initial_fact, []).
+node(18,costy(train), initial_fact, []).
 node(19,route_name(a), initial_fact, []).
 
 %fact for route b
@@ -26,13 +24,12 @@ node(19,route_name(a), initial_fact, []).
 node(20,license(car), initial_fact, []).
 node(21,drive(car), initial_fact, []).
 node(22,route_name(b), initial_fact, []).
-
+node(23,transport(car), initial_fact, []).
 
 %the flight for route c
 rule(1,[name(A),name(B)],friend(A,B)).
 rule(2,[name(A),city(X)],live(A,X)).
 rule(3,[friend(A,B),live(A,X),live(B,Y)],travel(X,Y)).
-rule(4,[city(A), city(B), travel(A,B), available(X)],transport(X)).
 rule(5,[forcast_sunny(X)],weather_good(X)).
 rule(6,[road(X,Y)],direct_route(X,Y)).
 rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
@@ -41,25 +38,25 @@ rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
 rule(10,[hotel(X),museum(Y),not(congestion(Y))],road(X,Y)).
 rule(11,[museum(X),luggage(Y)],road(X,Y)).
 rule(12,[luggage(X),airport(Y)],road(X,Y)).
-
-rule(13,[transport(X),route_name(Y),weather_good(X),hotel(A),airport(B),find_route(A, B)],valid_route(Y)).
+rule(13,[light_traffic(Y),transport(X),available(X),hotel(A),airport(B),find_route(A, B)],valid_route(Y)).
 
 rule(14,[forcast_rain(X)],weather_bad(X)).
 rule(15,[forcast_storm(X)],weather_bad(X)).
 
 %the train for route a 
 
-rule(16,[city(A),city(C),indirect(A,C),transport(X)],ticket(X)).
-rule(17,[direct(A,B),direct(B,C)],indirect(A,C)).
-rule(18,[christmas(X)],holiday(X)).
-rule(19,[holiday(Y)],many_people(Y)).
-rule(20,[many_people(Y)],expensive(Y)).
-rule(21,[route_name(Y),expensive(X),ticket(X)],valid_route(Y)).
+
+rule(17,[holiday(X)],special_event(X)).
+rule(18,[special_event(Y)],major_city_event(Y)).
+rule(19,[major_city_event(Y)],many_people(Y)).
+rule(21,[transport(X),costy(X)],quickest(X)).
+rule(22,[many_people(Y),route_name(Y),quickest(X),costy(X)],valid_route(Y)).
 
 % the car for route b
-rule(22,[license(X)],transport(X)).
+
 rule(23,[drive(X)],slowest(X)).
 rule(24,[transport(X),slowest(X),route_name(Y)],valid_route(Y)).
+
 rule(25,[valid_route(X)],good_route(X)).
 
 conclusion(good_route(b)).
@@ -105,7 +102,7 @@ user_rule(10,[hotel(X),museum(Y),not(congestion(Y))],road(X,Y)).
 user_rule(11,[museum(X),luggage(Y)],road(X,Y)).
 user_rule(12,[luggage(X),airport(Y)],road(X,Y)).
 
-user_rule(13,[transport(X),route_name(Y),weather_good(X),hotel(A),airport(B),find_route(A, B)],valid_route(Y)).
+user_rule(13,[available(X),transport(X),route_name(Y),weather_good(X),hotel(A),airport(B),find_route(A, B)],valid_route(Y)).
 
 user_rule(14,[forcast_rain(X)],weather_bad(X)).
 user_rule(15,[forcast_storm(X)],weather_bad(X)).
@@ -120,7 +117,7 @@ user_rule(20,[many_people(Y)],expensive(Y)).
 user_rule(21,[route_name(Y),expensive(X),ticket(X)],valid_route(Y)).
 
 % the car for route b
-user_rule(22,[license(X)],transport(X)).
+user_rule(22,[license(X)], drive(X)).
 user_rule(23,[drive(X)],slowest(X)).
 user_rule(24,[transport(X),slowest(X),route_name(Y)],valid_route(Y)).
 
@@ -230,7 +227,7 @@ rule_description(12):-
 
 
 rule_description(13):-
-    write('13. If the transport method is part of a route from hotel to airport, we can find this route, and the weather is good, then this route is a valid route').
+    write('13. If the transport method has avaliable tickest and is part of a route from hotel to airport, we can find this route, and the weather is good, then this route is a valid route').
 rule_description(14):-
     write('14. If the forcast is rainy for a transport, then the weather is bad for a transport').
 rule_description(15):-
@@ -285,7 +282,7 @@ r_description(12):-
 
 
 r_description(13):-
-    write('13. If the transport method is part of a route from hotel to airport, we can find this route, and the weather is good, then this route is a valid route').
+    write('13. If the transport method has avaliable tickest and is part of a route from hotel to airport, we can find this route, and the weather is good, then this route is a valid route').
 r_description(14):-
     write('14. If the forcast is rainy for a transport, then the weather is bad for a transport').
 r_description(15):-
