@@ -10,21 +10,20 @@ node(7,live(sarah,manchester), initial_fact, []).
 node(8,live(jack,london), initial_fact, []).
 node(9,available(flight), initial_fact, []).
 node(10,forcast_sunny(flight), initial_fact, []).
-node(23,transport(flight), initial_fact, []).
+node(11,transport(flight), initial_fact, []).
+node(12,light_traffic(c), initial_fact, []).
 
-node(24,light_traffic(c), initial_fact, []).
 % fact for route a 
-node(19,transport(train), initial_fact, []).
-node(18,holiday(a), initial_fact, []).
-node(18,costy(train), initial_fact, []).
-node(19,route_name(a), initial_fact, []).
+node(13,transport(train), initial_fact, []).
+node(14,holiday(a), initial_fact, []).
+node(15,costy(train), initial_fact, []).
+node(16,route_name(a), initial_fact, []).
 
 %fact for route b
-
-node(20,license(car), initial_fact, []).
-node(21,drive(car), initial_fact, []).
-node(22,route_name(b), initial_fact, []).
-node(23,transport(car), initial_fact, []).
+node(17,license(car), initial_fact, []).
+node(18,drive(car), initial_fact, []).
+node(19,route_name(b), initial_fact, []).
+node(20,transport(car), initial_fact, []).
 
 %the flight for route c
 rule(1,[name(A),name(B)],friend(A,B)).
@@ -45,7 +44,7 @@ rule(15,[forcast_storm(X)],weather_bad(X)).
 
 %the train for route a 
 
-
+rule(16,[christmas(X)],holiday(X)).
 rule(17,[holiday(X)],special_event(X)).
 rule(18,[special_event(Y)],major_city_event(Y)).
 rule(19,[major_city_event(Y)],many_people(Y)).
@@ -169,10 +168,8 @@ fact_description(direct_route(X,Y)):-
     write('it is a direct road from '), write(X), write(' to '),write(Y).
 fact_description(indirect_route(X,Y)):-
     write('it is an indirect road from '), write(X), write(' to '),write(Y).
-fact_description(direct(X,Y)):-
-    write('it is a direct transport from city '), write(X), write(' to city '),write(Y).
-fact_description(indirect(X,Y)):-
-    write('it is an indirect transport from city '), write(X), write(' to city '),write(Y).
+fact_description(costy(X)):-
+    write(X), write(' method is costy').
 fact_description(find_route(X, Y)):-
     write('we find aroute from '), write(X), write(' to '),write(Y).
 
