@@ -71,22 +71,20 @@ user_fact(7,live(sarah,manchester), initial_fact, []).
 user_fact(8,live(jack,london), initial_fact, []).
 user_fact(9,available(flight), initial_fact, []).
 user_fact(10,forcast_sunny(flight), initial_fact, []).
-user_fact(11,route_name(c), initial_fact, []).
+user_fact(11,transport(flight), initial_fact, []).
+user_fact(12,light_traffic(c), initial_fact, []).
+
 % fact for route a 
-user_fact(12,city(london), initial_fact, []).
-user_fact(13,city(manchester), initial_fact, []).
-user_fact(14,city(birminghan), initial_fact, []).
-user_fact(15,direct(manchester,birminghan), initial_fact, []).
-user_fact(16,direct(birminghan,london), initial_fact, []).
-user_fact(17,transport(train), initial_fact, []).
-user_fact(18,christmas(train), initial_fact, []).
-user_fact(19,route_name(a), initial_fact, []).
+user_fact(13,transport(train), initial_fact, []).
+user_fact(14,holiday(a), initial_fact, []).
+user_fact(15,costy(train), initial_fact, []).
+user_fact(16,route_name(a), initial_fact, []).
 
 %fact for route b
-
-user_fact(20,license(car), initial_fact, []).
-user_fact(21,drive(car), initial_fact, []).
-user_fact(22,route_name(b), initial_fact, []).
+user_fact(17,license(car), initial_fact, []).
+user_fact(18,drive(car), initial_fact, []).
+user_fact(19,route_name(b), initial_fact, []).
+user_fact(20,transport(car), initial_fact, []).
 
 user_rule(1,[name(A),name(B)],friend(A,B)).
 user_rule(2,[name(A),city(X)],live(A,X)).
