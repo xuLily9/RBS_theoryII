@@ -4,111 +4,111 @@
 node(1,name(lisa), initial_fact, []).
 node(2,name(adam), initial_fact, []).
 node(3,friend(lisa,adam), initial_fact, []).
-node(3,live(lisa,london), initial_fact, []).
-node(3,live(adam,paris), initial_fact, []).
-node(9,city(london), initial_fact, []).
-node(10,city(paris), initial_fact, []).
-node(9,hotel(00), initial_fact, []).
-node(10,park(10), initial_fact, []).
-node(11,school(20), initial_fact, []).
-node(12,airport(30), initial_fact, []).
-node(14,transport(flight), initial_fact, []).
-node(14,direct_flight(flight), initial_fact, []).
-node(25,light_traffic(c), initial_fact, []).
+node(4,live(lisa,london), initial_fact, []).
+node(5,live(adam,paris), initial_fact, []).
+node(6,city(london), initial_fact, []).
+node(7,city(paris), initial_fact, []).
+node(8,hotel(00), initial_fact, []).
+node(9,park(10), initial_fact, []).
+node(10,school(20), initial_fact, []).
+node(11,airport(30), initial_fact, []).
+node(12,transport(flight), initial_fact, []).
+node(13,direct_flight(flight), initial_fact, []).
+node(14,light_traffic(c), initial_fact, []).
 % fact for route a 
-node(17,special_event(a), initial_fact, []).
-node(19,route_name(a), initial_fact, []).
-node(20,transport(bus), initial_fact, []).
-node(21,slowest(bus), initial_fact, []).
+node(15,special_event(a), initial_fact, []).
+node(16,route_name(a), initial_fact, []).
+node(17,transport(bus), initial_fact, []).
+node(18,slowest(bus), initial_fact, []).
 
 %fact for route b
-node(22,strike(train), initial_fact, []).
-node(23,ticket(train), initial_fact, []).
-node(24,transport(train), initial_fact, []).
-node(25,route_name(b), initial_fact, []).
+node(19,strike(train), initial_fact, []).
+node(20,ticket(train), initial_fact, []).
+node(21,transport(train), initial_fact, []).
+node(22,route_name(b), initial_fact, []).
 
 rule(1,[name(A),name(B)],friend(A,B)).
 rule(2,[name(A),city(X)],live(A,X)).
 rule(3,[friend(A,B),live(A,X),live(B,Y)],travel(X,Y)).
-rule(6,[road(X,Y)],direct_route(X,Y)).
-rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
-rule(8,[direct_route(X,Y)],find_route(X, Y)).
-rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
-rule(10,[hotel(X),park(Y),not(congestion(Y))],road(X,Y)).
-rule(11,[park(X),school(Y)],road(X,Y)).
-rule(12,[school(X),airport(Y)],road(X,Y)).
-rule(13,[transport(Y),direct_flight(Y)],expensive(Y)).
-rule(14,[light_traffic(C),hotel(A),airport(B),find_route(A, B),expensive(Y),transport(Y)],valid_route(C)).
+rule(4,[road(X,Y)],direct_route(X,Y)).
+rule(5,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
+rule(6,[direct_route(X,Y)],find_route(X, Y)).
+rule(7,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
+rule(8,[hotel(X),park(Y),not(congestion(Y))],road(X,Y)).
+rule(9,[park(X),school(Y)],road(X,Y)).
+rule(10,[school(X),airport(Y)],road(X,Y)).
+rule(11,[transport(Y),direct_flight(Y)],expensive(Y)).
+rule(12,[light_traffic(C),hotel(A),airport(B),find_route(A, B),expensive(Y),transport(Y)],valid_route(C)).
 
 % bus is for route a 
 
-rule(18,[special_event(Y)],major_city_event(Y)).
-rule(19,[major_city_event(Y)],many_people(Y)).
+rule(13,[special_event(Y)],major_city_event(Y)).
+rule(14,[major_city_event(Y)],many_people(Y)).
 
-rule(21,[slowest(X),transport(X)],cheapest(X)).
-rule(22,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route(Y)).
+rule(15,[slowest(X),transport(X)],cheapest(X)).
+rule(16,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route(Y)).
 
 % train is for route b
 %rule(23,[not(strike(X)),ticket(X)],quickest(X)).
-rule(23,[ticket(X)],quickest(X)).
-rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
+rule(17,[ticket(X)],quickest(X)).
+rule(18,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
-rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
+rule(19,[valid_route(X),light_traffic(X)],good_route(X)).
 
 conclusion(good_route(b)).
 
 user_fact(1,name(lisa), initial_fact, []).
 user_fact(2,name(adam), initial_fact, []).
 user_fact(3,friend(lisa,adam), initial_fact, []).
-user_fact(3,live(lisa,london), initial_fact, []).
-user_fact(3,live(adam,paris), initial_fact, []).
-user_fact(9,city(london), initial_fact, []).
-user_fact(10,city(paris), initial_fact, []).
-user_fact(9,hotel(00), initial_fact, []).
-user_fact(10,park(10), initial_fact, []).
-user_fact(11,school(20), initial_fact, []).
-user_fact(12,airport(30), initial_fact, []).
-user_fact(14,transport(flight), initial_fact, []).
-user_fact(14,direct_flight(flight), initial_fact, []).
-user_fact(25,light_traffic(c), initial_fact, []).
+user_fact(4,live(lisa,london), initial_fact, []).
+user_fact(5,live(adam,paris), initial_fact, []).
+user_fact(6,city(london), initial_fact, []).
+user_fact(7,city(paris), initial_fact, []).
+user_fact(8,hotel(00), initial_fact, []).
+user_fact(9,park(10), initial_fact, []).
+user_fact(10,school(20), initial_fact, []).
+user_fact(11,airport(30), initial_fact, []).
+user_fact(12,transport(flight), initial_fact, []).
+user_fact(13,direct_flight(flight), initial_fact, []).
+user_fact(14,light_traffic(c), initial_fact, []).
 % fact for route a 
-user_fact(17,special_event(a), initial_fact, []).
-user_fact(19,route_name(a), initial_fact, []).
-user_fact(20,transport(bus), initial_fact, []).
-user_fact(21,slowest(bus), initial_fact, []).
+user_fact(15,special_event(a), initial_fact, []).
+user_fact(16,route_name(a), initial_fact, []).
+user_fact(17,transport(bus), initial_fact, []).
+user_fact(18,slowest(bus), initial_fact, []).
 
-user_fact(22,strike(train), initial_fact, []).
-user_fact(23,ticket(train), initial_fact, []).
-user_fact(24,transport(train), initial_fact, []).
-user_fact(25,route_name(b), initial_fact, []).
+user_fact(19,strike(train), initial_fact, []).
+user_fact(20,ticket(train), initial_fact, []).
+user_fact(21,transport(train), initial_fact, []).
+user_fact(22,route_name(b), initial_fact, []).
 
 user_rule(1,[name(A),name(B)],friend(A,B)).
 user_rule(2,[name(A),city(X)],live(A,X)).
 user_rule(3,[friend(A,B),live(A,X),live(B,Y)],travel(X,Y)).
-user_rule(6,[road(X,Y)],direct_route(X,Y)).
-user_rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
-user_rule(8,[direct_route(X,Y)],find_route(X, Y)).
-user_rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
-user_rule(10,[hotel(X),park(Y),not(congestion(Y))],road(X,Y)).
-user_rule(11,[park(X),school(Y)],road(X,Y)).
-user_rule(12,[school(X),airport(Y)],road(X,Y)).
-user_rule(13,[transport(Y),direct_flight(Y)],expensive(Y)).
-user_rule(14,[light_traffic(C),hotel(A),airport(B),find_route(A, B),expensive(Y),transport(Y)],valid_route(C)).
+user_rule(4,[road(X,Y)],direct_route(X,Y)).
+user_rule(5,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
+user_rule(6,[direct_route(X,Y)],find_route(X, Y)).
+user_rule(7,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
+user_rule(8,[hotel(X),park(Y),not(congestion(Y))],road(X,Y)).
+user_rule(9,[park(X),school(Y)],road(X,Y)).
+user_rule(10,[school(X),airport(Y)],road(X,Y)).
+user_rule(11,[transport(Y),direct_flight(Y)],expensive(Y)).
+user_rule(12,[light_traffic(C),hotel(A),airport(B),find_route(A, B),expensive(Y),transport(Y)],valid_route(C)).
 
 % bus is for route a 
 
-user_rule(18,[special_event(Y)],major_city_event(Y)).
-user_rule(19,[major_city_event(Y)],many_people(Y)).
+user_rule(13,[special_event(Y)],major_city_event(Y)).
+user_rule(14,[major_city_event(Y)],many_people(Y)).
 
-user_rule(21,[slowest(X),transport(X)],cheapest(X)).
-user_rule(22,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route(Y)).
+user_rule(15,[slowest(X),transport(X)],cheapest(X)).
+user_rule(16,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route(Y)).
 
 % train is for route b
 %rule(23,[not(strike(X)),ticket(X)],quickest(X)).
-user_rule(23,[ticket(X)],quickest(X)).
-user_rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
+user_rule(17,[ticket(X)],quickest(X)).
+user_rule(18,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
-user_rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
+user_rule(19,[valid_route(X),light_traffic(X)],good_route(X)).
 
 fact_description(name(X)):-
     write('his/her name is '), write(X).
@@ -179,12 +179,38 @@ fact_description(congestion(Y)):-
 
 
 
+user_rule(1,[name(A),name(B)],friend(A,B)).
+user_rule(2,[name(A),city(X)],live(A,X)).
+user_rule(3,[friend(A,B),live(A,X),live(B,Y)],travel(X,Y)).
+user_rule(6,[road(X,Y)],direct_route(X,Y)).
+user_rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
+user_rule(8,[direct_route(X,Y)],find_route(X, Y)).
+user_rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
+user_rule(10,[hotel(X),park(Y),not(congestion(Y))],road(X,Y)).
+user_rule(11,[park(X),school(Y)],road(X,Y)).
+user_rule(12,[school(X),airport(Y)],road(X,Y)).
+user_rule(13,[transport(Y),direct_flight(Y)],expensive(Y)).
+user_rule(14,[light_traffic(C),hotel(A),airport(B),find_route(A, B),expensive(Y),transport(Y)],valid_route(C)).
 
+% bus is for route a 
+
+user_rule(18,[special_event(Y)],major_city_event(Y)).
+user_rule(19,[major_city_event(Y)],many_people(Y)).
+
+user_rule(21,[slowest(X),transport(X)],cheapest(X)).
+user_rule(22,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route(Y)).
+
+% train is for route b
+%rule(23,[not(strike(X)),ticket(X)],quickest(X)).
+user_rule(23,[ticket(X)],quickest(X)).
+user_rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
+
+user_rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
 
 rule_description(1):-
-    write('1. If two friends talk on the phone and one of them offers advice, then the other buddy follows that advice.').
+    write('1. If there are two person then they are friends').
 rule_description(2):-
-    write('2. If one person take the advice about an app, then this person downloaded that app').
+    write('2. If a person name is A and a city X then this person lives in this city').
 rule_description(3):-
     write('3. If there is a smile emogi in the app, then this app predict it is a sunny day').
 rule_description(4):-
