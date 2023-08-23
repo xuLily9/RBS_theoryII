@@ -8,9 +8,6 @@ node(5,give_advice(forcast), initial_fact, []).
 node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
 node(8,need_gas(car), initial_fact, []).
-%node(8,road(00,10), initial_fact, []).
-%node(9,road(10,20), initial_fact, []).
-%node(10,road(20,30), initial_fact, []).
 node(9,gas(00), initial_fact, []).
 node(10,park(10), initial_fact, []).
 node(11,school(20), initial_fact, []).
