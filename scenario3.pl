@@ -116,7 +116,7 @@ fact_description(friend(X,Y)):-
     write(X), write(' and '),write(Y),write(' are friends').
 fact_description(travel(X,Y)):-
     write('travel from city '), write(X),write(' to'), write(Y).
-fact_description(live(X，Y)):-
+fact_description(live(X,Y)):-
     write(X), write(' lives in city '),write(Y).
 fact_description(city(X)):-
     write(X), write(' is a city').
@@ -178,142 +178,87 @@ fact_description(congestion(Y)):-
     write('in location '), write(Y), write(' ,there is a congestion').
 
 
-
-user_rule(1,[name(A),name(B)],friend(A,B)).
-user_rule(2,[name(A),city(X)],live(A,X)).
-user_rule(3,[friend(A,B),live(A,X),live(B,Y)],travel(X,Y)).
-user_rule(6,[road(X,Y)],direct_route(X,Y)).
-user_rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
-user_rule(8,[direct_route(X,Y)],find_route(X, Y)).
-user_rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
-user_rule(10,[hotel(X),park(Y),not(congestion(Y))],road(X,Y)).
-user_rule(11,[park(X),school(Y)],road(X,Y)).
-user_rule(12,[school(X),airport(Y)],road(X,Y)).
-user_rule(13,[transport(Y),direct_flight(Y)],expensive(Y)).
-user_rule(14,[light_traffic(C),hotel(A),airport(B),find_route(A, B),expensive(Y),transport(Y)],valid_route(C)).
-
-% bus is for route a 
-
-user_rule(18,[special_event(Y)],major_city_event(Y)).
-user_rule(19,[major_city_event(Y)],many_people(Y)).
-
-user_rule(21,[slowest(X),transport(X)],cheapest(X)).
-user_rule(22,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route(Y)).
-
-% train is for route b
-%rule(23,[not(strike(X)),ticket(X)],quickest(X)).
-user_rule(23,[ticket(X)],quickest(X)).
-user_rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
-
-user_rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
-
 rule_description(1):-
-    write('1. If there are two person then they are friends').
+    write('1. If two individuals have names A and B, then they are considered friends').
 rule_description(2):-
     write('2. If a person name is A and a city X then this person lives in this city').
 rule_description(3):-
-    write('3. If there is a smile emogi in the app, then this app predict it is a sunny day').
+    write('3. If there are two friends, one person lives in city X and another person lives in city Y then one person want to travel from city X to Y ').
 rule_description(4):-
-    write('4. If one person download an app and this app predicted it is a sunny day, then this person knows today is a sunny day'). 
+    write('4. If there is a direct road connecting two locations, then this is the direct route.').
 rule_description(5):-
-    write('5. If it shows green about an route, then there is light traffic on this route').
+    write('5. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.').
 rule_description(6):-
-    write('6. If there is a direct road connecting two locations, then this is the direct route.').
+    write('6. If there is a direct road connecting two locations, then we find the route between this two locations').
 rule_description(7):-
-    write('7. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.').
+    write('7. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
 rule_description(8):-
-    write('8. If there is a direct road connecting two locations, then we find the route between this two locations').
+    write('8. If there is a hotel, and a park, there is no congestion in park, then we choose the road bewteen hotel and park').
 rule_description(9):-
-    write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
+    write('9. If there is a park and a school, then we choose the road between park and school').
 rule_description(10):-
-    write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park').
+    write('10. If there is a school and a airport, then we choose this road between school and airport').
 rule_description(11):-
-    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
+    write('11. If there is no direct flight available for a certain mode of transport, then that mode of transport is considered expensive').
 rule_description(12):-
-    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
+    write('12. If there is light traffic in route C, and there exists a hotel A and an airport B in that area, such that there is a valid route between A and B, and the mode of transport denoted by Y is considered expensive, then the route C is considered valid').
 rule_description(13):-
-    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station').
+    write('13. If an event is categorized as a special event, then it is also categorized as a major city event').
 rule_description(14):-
-    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
-
-
+    write('14. If there is a major city event, then there are lots of people').
 rule_description(15):-
-    write('15. If there is a footable team win the final match, then this footbal team is the champion').
+    write('15. If X is the slowest mode of transport, then it is also considered the cheapest mode of transport').
 rule_description(16):-
-    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('16. If a route is associated with many people and has a route name Y, and the mode of transport denoted by X is considered the cheapest, then the route named Y is considered valid').
 rule_description(17):-
-    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('17. If you have a ticket X, then the mode of transport denoted by X is considered the quickest.').
 rule_description(18):-
-    write('18. If this is a special event, then this is also a major city event').
-rule_description(19):-
-    write('19. If there is a major city event, then there are lots of people').
-rule_description(20):-
-    write('20. If there are lots of people, then there is a congestion').
-rule_description(21):-
-    write('21. If this is the cheapest transport method then this is the slowest').
-rule_description(22):-
-    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
-rule_description(23):-
-    write('23. If it has avaliable ticket, then this is the quickest transport method.').
+    write('18. If the mode of transport denoted by X is the quickest and there is a route name Y associated, then the route named Y is considered valid.').
     %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
-rule_description(24):-
-    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
-rule_description(25):-
-    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
+rule_description(19):-
+    write('19.If a route X is valid and there is light traffic on that route, then route X is considered a good route.').
 
 %% Pretty print the system rules 
+
 r_description(1):-
-    write('1. If two friends talk on the phone and one of them offers advice, then the other buddy follows that advice.'),nl.
+    write('1. If two individuals have names A and B, then they are considered friends').
 r_description(2):-
-    write('2. If one person take the advice about an app, then this person downloaded that app'),nl.
+    write('2. If a person name is A and a city X then this person lives in this city').
 r_description(3):-
-    write('3. If there is a smile emogi in the app, then this app predict it is a sunny day'),nl.
+    write('3. If there are two friends, one person lives in city X and another person lives in city Y then one person want to travel from city X to Y ').
 r_description(4):-
-    write('4. If one person download an app and this app predicted it is a sunny day, then this person knows today is a sunny day'),nl. 
+    write('4. If there is a direct road connecting two locations, then this is the direct route.').
 r_description(5):-
-    write('5. If it shows green about an route, then there is light traffic on this route'),nl.
+    write('5. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.').
 r_description(6):-
-    write('6. If there is a direct road connecting two locations, then this is the direct route.'),nl.
+    write('6. If there is a direct road connecting two locations, then we find the route between this two locations').
 r_description(7):-
-    write('7. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.'),nl.
+    write('7. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
 r_description(8):-
-    write('8. If there is a direct road connecting two locations, then we find the route between this two locations'),nl.
+    write('8. If there is a hotel, and a park, there is no congestion in park, then we choose the road bewteen hotel and park').
 r_description(9):-
-    write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.'),nl.
+    write('9. If there is a park and a school, then we choose the road between park and school').
 r_description(10):-
-    write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park'),nl.
+    write('10. If there is a school and a airport, then we choose this road between school and airport').
 r_description(11):-
-    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
-
+    write('11. If there is no direct flight available for a certain mode of transport, then that mode of transport is considered expensive').
 r_description(12):-
-    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
+    write('12. If there is light traffic in route C, and there exists a hotel A and an airport B in that area, such that there is a valid route between A and B, and the mode of transport denoted by Y is considered expensive, then the route C is considered valid').
 r_description(13):-
-    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station'),nl.
+    write('13. If an event is categorized as a special event, then it is also categorized as a major city event').
 r_description(14):-
-    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
+    write('14. If there is a major city event, then there are lots of people').
 r_description(15):-
-    write('15. If there is a footable team win the final match, then this footbal team is the champion').
+    write('15. If X is the slowest mode of transport, then it is also considered the cheapest mode of transport').
 r_description(16):-
-    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('16. If a route is associated with many people and has a route name Y, and the mode of transport denoted by X is considered the cheapest, then the route named Y is considered valid').
 r_description(17):-
-    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('17. If you have a ticket X, then the mode of transport denoted by X is considered the quickest.').
 r_description(18):-
-    write('18. If this is a special event, then this is also a major city event').
+    write('18. If the mode of transport denoted by X is the quickest and there is a route name Y associated, then the route named Y is considered valid.').
+    %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 r_description(19):-
-    write('19. If there is a major city event, then there are lots of people').
-r_description(20):-
-    write('20. If there are lots of people, then there is a congestion').
-r_description(21):-
-    write('21. If this is the cheapest transport method then this is the slowest').
-r_description(22):-
-    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
-r_description(23):-
-    write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
-r_description(24):-
-    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
-r_description(25):-
-    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
-
+    write('19.If a route X is valid and there is light traffic on that route, then route X is considered a good route.').
 
 system_rule(Rule):-
     r_description(Rule).
