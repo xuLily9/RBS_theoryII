@@ -60,7 +60,8 @@ ask_why(F):-    % conclusion is true and the user ask all trypes of why question
         why(F)
     ;   
         N =:= 3
-    ->  write('User: [I do not know]. Why do you believe '), print_fact(F), write('?\n'),why(F)
+    ->  write('User: [I do not know]. Why do you believe '), print_fact(F), write('?\n'), 
+        why(F),write('hello')
 
     ;   write("Not a valid choice, try again..."), nl,fail
     ).
@@ -91,7 +92,7 @@ ask_whynot(F):- % conclusion is false and the user ask all trypes of whynot ques
         
     ;   
         N =:= 3
-    ->  write('User: [I do not know] Why do not you believe '), print_fact(F), write('?\n'),why(F)
+    ->  write('User: [I do not know] Why do not you believe '), print_fact(F), write('?\n'),whynot(F)
 
     ;   write("Computer: Not a valid choice, try again..."), nl,fail
     ).
