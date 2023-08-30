@@ -99,5 +99,29 @@ rule(62,[value_serene(C),scenic_drive(D)],personal_preference(C,D)).
 %initial_question(1,route(b), 'In order to arriving the airport in time, which route do you think alex choose?').
 conclusion(route(b)).
 
-
+check([],[]).
+check([not(H)|T], N):-
+    \+ deduce_user(not(H), _DAG),!, 
+    aggregate_all(count, n_computer_user(_,_), Count1),
+    Number is Count1 +1,
+    assert(n_computer_user(Number,H)),
+    check(T, N).
+check([not(H)|T], N):-
+    \+ deduce_user(H, _DAG),!, 
+    aggregate_all(count, n_computer_user(_,_), Count1),
+    Number is Count1 +1,
+    assert(n_computer_user(Number,H)),
+    check(T, N).
+check([H|T], N):-
+    \+ deduce_user(H, _DAG),!, 
+    aggregate_all(count, n_computer_user(_,_), Count1),
+    Number is Count1 +1,
+    assert(n_computer_user(Number,H)),
+    check(T, N).
+check([H|T], [H|N]):-
+    deduce_user(H,_DAG),
+    aggregate_all(count, y_computer_user(_,_), Count4),
+    Num is Count4 +1,
+    assert(y_computer_user(Num,H)),
+    check(T,N).
 
