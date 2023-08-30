@@ -17,19 +17,19 @@ whynot(F):-
     
 initial_fact_check(F):-
      ( 
-        user_fact(_,F,initial_fact,_)
-        %\+ node(_N, F,_, _)
-        -> (    write('User: Because '),print_fact(F),write(' is an initial fact.'),nl, 
+        user_fact(_,F,initial_fact,_),
+        \+ node(_N, F,_, _)
+        -> (   % write('User: Because '),print_fact(F),write(' is an initial fact.'),nl, 
                 aggregate_all(count, y_computer_user(_,_), X),
-                %aggregate_all(count, n_user_computer(_,_), Y),
+                aggregate_all(count, n_user_computer(_,_), Y),
                 X1 is X +1,
-                %Y1 is Y+1,
-                assert(y_computer_user(X1,F)),!
-               % assert(n_user_computer(Y1,F)),!,
-               % write('Computer: I have found the disagreement '), 
-               % print_fact(F),
-               % write(' is an initial fact of user, but the computer neither believes nor infers it.\n'),nl,
-               % assert(different(F)),!
+                Y1 is Y+1,
+                assert(y_computer_user(X1,F)),!,
+                assert(n_user_computer(Y1,F)),!,
+                write('Computer: Thank you for the information. I have found the disagreement '), 
+                print_fact(F),
+                write(' is an initial fact of user, but the computer neither believes nor infers it.\n'),nl,
+                assert(different(F)),!
         )
     ; (
         \+user_fact(_,F,initial_fact,_)
@@ -39,8 +39,10 @@ initial_fact_check(F):-
 
 reason_rule(Fact):-
     repeat,
+    (user_rule(N_ID, Antecedants, Fact)
+    ->
     write('\n-------Please select a rule number from related rule sets:-------\n'),nl,
-    findall(N, user_rule(N, _Antecedants, Fact),Ruleset),
+    findall(N_ID, user_rule(N_ID, Antecedants, Fact),Ruleset),
     write_element(Ruleset),
     last(Ruleset, Count),
     Restart is Count+1,
@@ -55,20 +57,25 @@ reason_rule(Fact):-
     ;  N=:=Restart
     ->  write('\nComputer: Why do you believe '), print_fact(Fact), write('? '),
         whynot(Fact)
-    ;   
+    ;   N=:=N
+    ->
         user_rule(N, A, Fact),
         check(A, _),
         user_question_list
         %write(A)
     ;   
-        write('Not a valid choice, try again...'), nl, fail).
+        write('Not a valid choice, try again...'), nl, fail)
+    ;
+    write('Computer: This fact can not be deduced.\n'),
+    initial_fact_check(Fact)
+    ).
 
 user_question_list:-
-    write('\n----------Answer A QUESTION OR EXIT----------\n'),nl,
+    write('\n----------Please select a question to answer it OR EXIT----------\n'),nl,
     write('1. I am satisfied. Exit\n'),
     write_w_list,
     write_x_list,
-    write('user:'),
+    write('I select:'),
     prompt(_, ''),
     read(P),
     (
@@ -88,7 +95,8 @@ user_question_list:-
         A1 is P-Count-1,
         n_computer_user(A1,Question2)
          -> write('\nComputer: Why do not you believe '),print_fact(Question2), write('?\n'),
-            write('\nUser: Because it is not an initial fact and can not be decuced from the rules.'),
+         whynot(Question2),
+            %write('\nUser: Because it is not an initial fact and can not be decuced from the rules.'),
             assert(asked_question(Question2)),nl 
             %conversations(_,_)
      ;   
@@ -97,13 +105,14 @@ user_question_list:-
 
 
 check([],[]).
-check([not(H)|T], N):-
-    \+ deduce_user(not(H), _DAG),!, 
+check([not(H)|T], [not(H)|N]):-
+    \+ deduce_user(not(H), _DAG),!,
+    %write(H), 
     aggregate_all(count, n_computer_user(_,_), Count1),
     Number is Count1 +1,
     assert(n_computer_user(Number,H)),
     check(T, N).
-check([not(H)|T], N):-
+check([H|T], N):-
     \+ deduce_user(H, _DAG),!, 
     aggregate_all(count, n_computer_user(_,_), Count1),
     Number is Count1 +1,
