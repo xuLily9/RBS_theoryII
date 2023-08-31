@@ -1,4 +1,5 @@
-% The user and computer agree with the different reason 
+% The user and computer disagree with the different rule
+% conclusion is true, rule 23 is different
 % From manchester to london: flying, by train, by car 
 node(1,name(sarah), initial_fact, []).
 node(2,name(jack), initial_fact, []).
@@ -56,9 +57,9 @@ rule(20,[many_people(Y),route_name(Y),quickest(X),costy(X)],valid_route(Y)).
 rule(21,[drive(X)],slowest(X)).
 rule(22,[transport(X),slowest(X),route_name(Y)],valid_route(Y)).
 
-rule(23,[valid_route(X)],good_route(X)).
+rule(23,[valid_route(X),light_traffic(X)],good_route(X)).
 
-conclusion(good_route(b)).
+conclusion(good_route(c)).
 
 
 user_fact(1,name(sarah), initial_fact, []).
@@ -116,7 +117,7 @@ user_rule(20,[many_people(Y),route_name(Y),quickest(X),costy(X)],valid_route(Y))
 user_rule(21,[drive(X)],slowest(X)).
 user_rule(22,[transport(X),slowest(X),route_name(Y)],valid_route(Y)).
 
-user_rule(23,[valid_route(X)],good_route(X)).
+user_rule(23,[valid_route(X),quickest(X)],good_route(X)).
 
 fact_description(name(X)):-
     write('his/her name is '), write(X).
@@ -246,7 +247,7 @@ rule_description(21):-
 rule_description(22):-
     write('22.  If the mode of transport denoted by X is the slowest and there is a route name Y associated, then the route named Y is considered valid.').
 rule_description(23):-
-    write('23. If there is a valid route, then this route is a good route.').
+    write('23. If there is a valid route and it is light traffic, then this route is a good route.').
 
 
 %% Pretty print the system rules 
@@ -296,7 +297,7 @@ r_description(21):-
 r_description(22):-
     write('22.  If the mode of transport denoted by X is the slowest and there is a route name Y associated, then the route named Y is considered valid.').
 r_description(23):-
-    write('23. If there is a valid route, then this route is a good route.').
+    write('23. If there is a valid route and it is the quickest, then this route is a good route.').
 
 system_rule(Rule):-
     r_description(Rule).
