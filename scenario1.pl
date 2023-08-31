@@ -1,4 +1,4 @@
-% The user and computer agree with the same reason 
+% The user and computer disagree because of different fact 
 % From city center to airport, there are some options: train, drive or bus
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
@@ -8,9 +8,6 @@ node(5,give_advice(forcast), initial_fact, []).
 node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
 node(8,need_gas(car), initial_fact, []).
-%node(8,road(00,10), initial_fact, []).
-%node(9,road(10,20), initial_fact, []).
-%node(10,road(20,30), initial_fact, []).
 node(9,gas(00), initial_fact, []).
 node(10,park(10), initial_fact, []).
 node(11,school(20), initial_fact, []).
@@ -32,43 +29,44 @@ node(22,strike(train), initial_fact, []).
 node(23,ticket(train), initial_fact, []).
 node(24,transport(train), initial_fact, []).
 node(25,route_name(b), initial_fact, []).
+node(26,light_traffic(c), initial_fact, []).
 
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
 rule(3,[smile(W)],predict_sunny(W)).
 rule(4,[predict_sunny(W),download(X,W)],weather_sunny(X)).
-rule(5,[green(X)],light_traffic(X)).
-rule(6,[road(X,Y)],direct_route(X,Y)).
-rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
-rule(8,[direct_route(X,Y)],find_route(X, Y)).
-rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
-rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
-rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
-rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
-rule(13,[transport(Y),need_gas(Y),gas(X)],gas_station(X)).
-rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+%rule(5,[green(X)],light_traffic(X)).
+rule(5,[road(X,Y)],direct_route(X,Y)).
+rule(6,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
+rule(7,[direct_route(X,Y)],find_route(X, Y)).
+rule(8,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
+rule(9,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
+rule(10,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
+rule(11,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
+rule(12,[transport(Y),need_gas(Y),gas(X)],gas_station(X)).
+rule(13,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 
 
 %This is for route a 
-rule(15,[football_team(Z)],champion(Z)).
-rule(16,[champion(Z),cityroad(Y)],parade(Z,Y)).
-rule(17,[parade(Z,Y),celebrate(Z)],special_event(Y)).
-rule(18,[special_event(Y)],major_city_event(Y)).
-rule(19,[major_city_event(Y)],many_cars(Y)).
-rule(20,[many_cars(Y)],congestion(Y)).
-rule(21,[cheapest(X)],slowest(X)).
-rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
+rule(14,[football_team(Z)],champion(Z)).
+rule(15,[champion(Z),cityroad(Y)],parade(Z,Y)).
+rule(16,[parade(Z,Y),celebrate(Z)],special_event(Y)).
+rule(17,[special_event(Y)],major_city_event(Y)).
+rule(18,[major_city_event(Y)],many_cars(Y)).
+rule(19,[many_cars(Y)],congestion(Y)).
+rule(20,[cheapest(X)],slowest(X)).
+rule(21,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
 
 % This is for route b
 %rule(23,[not(strike(X)),ticket(X)],quickest(X)).
-rule(23,[ticket(X)],quickest(X)).
+rule(22,[ticket(X)],quickest(X)).
 
-rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
+rule(23,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
-rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
+rule(24,[valid_route(X),light_traffic(X)],good_route(X)).
 
-conclusion(good_route(b)).
+conclusion(good_route(c)).
 
 user_fact(1,name(alex), initial_fact, []).
 user_fact(2,name(emma), initial_fact, []).
@@ -78,9 +76,6 @@ user_fact(5,give_advice(forcast), initial_fact, []).
 user_fact(6,app(forcast), initial_fact, []).
 user_fact(7,smile(forcast), initial_fact, []).
 user_fact(8,need_gas(car), initial_fact, []).
-%node(8,road(00,10), initial_fact, []).
-%user_fact(9,road(10,20), initial_fact, []).
-%user_fact(10,road(20,30), initial_fact, []).
 user_fact(9,gas(00), initial_fact, []).
 user_fact(10,park(10), initial_fact, []).
 user_fact(11,school(20), initial_fact, []).
@@ -98,34 +93,35 @@ user_fact(22,strike(train), initial_fact, []).
 user_fact(23,ticket(train), initial_fact, []).
 user_fact(24,transport(train), initial_fact, []).
 user_fact(25,route_name(b), initial_fact, []).
+user_fact(26,light_traffic(b), initial_fact, []).
 
 user_rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 user_rule(2,[app(W),take_advice(X,W)],download(X,W)).
 user_rule(3,[smile(W)],predict_sunny(W)).
 user_rule(4,[predict_sunny(W),download(X,W)],weather_sunny(X)).
-user_rule(5,[green(X)],light_traffic(X)).
-user_rule(6,[road(X,Y)],direct_route(X,Y)).
-user_rule(7,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
-user_rule(8,[direct_route(X,Y)],find_route(X, Y)).
-user_rule(9,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
+%user_rule(5,[green(X)],light_traffic(X)).
+user_rule(5,[road(X,Y)],direct_route(X,Y)).
+user_rule(6,[direct_route(X,Y),direct_route(Y,Z)],indirect_route(X,Z)).
+user_rule(7,[direct_route(X,Y)],find_route(X, Y)).
+user_rule(8,[direct_route(X, Z),find_route(Z, Y)],find_route(X, Y)).
 
-user_rule(10,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
-user_rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
-user_rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
-user_rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
-user_rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
-user_rule(15,[football_team(Z)],champion(Z)).
-user_rule(16,[champion(Z),cityroad(Y)],parade(Z,Y)).
-user_rule(17,[parade(Z,Y),celebrate(Z)],special_event(Y)).
-user_rule(18,[special_event(Y)],major_city_event(Y)).
-user_rule(19,[major_city_event(Y)],many_people(Y)).
-user_rule(20,[many_people(Y)],congestion(Y)).
-user_rule(21,[cheapest(X)],slowest(X)).
-user_rule(22,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
-user_rule(23,[ticket(X)],quickest(X)).
+user_rule(9,[gas_station(X),park(Y),not(congestion(Y))],road(X,Y)).
+user_rule(10,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
+user_rule(11,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
+user_rule(12,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
+user_rule(13,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
+user_rule(14,[football_team(Z)],champion(Z)).
+user_rule(15,[champion(Z),cityroad(Y)],parade(Z,Y)).
+user_rule(16,[parade(Z,Y),celebrate(Z)],special_event(Y)).
+user_rule(17,[special_event(Y)],major_city_event(Y)).
+user_rule(18,[major_city_event(Y)],many_people(Y)).
+user_rule(19,[many_people(Y)],congestion(Y)).
+user_rule(20,[cheapest(X)],slowest(X)).
+user_rule(21,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
+user_rule(22,[ticket(X)],quickest(X)).
 %user_rule(23,[not(strike(X)),ticket(X)],quickest(X)).
-user_rule(24,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
-user_rule(25,[valid_route(X),light_traffic(X)],good_route(X)).
+user_rule(23,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
+user_rule(24,[valid_route(X),light_traffic(X)],good_route(X)).
 
 fact_description(good_route(X)):-
    write(X), write(' is a good route').
@@ -244,51 +240,51 @@ rule_description(3):-
     write('3. If there is a smile emogi in the app, then this app predict it is a sunny day').
 rule_description(4):-
     write('4. If one person download an app and this app predicted it is a sunny day, then this person knows today is a sunny day'). 
+%rule_description(5):-
+%    write('5. If it shows green about an route, then there is light traffic on this route').
 rule_description(5):-
-    write('5. If it shows green about an route, then there is light traffic on this route').
+    write('5. If there is a direct road connecting two locations, then this is the direct route.').
 rule_description(6):-
-    write('6. If there is a direct road connecting two locations, then this is the direct route.').
+    write('6. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.').
 rule_description(7):-
-    write('7. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.').
+    write('7. If there is a direct road connecting two locations, then we find the route between this two locations').
 rule_description(8):-
-    write('8. If there is a direct road connecting two locations, then we find the route between this two locations').
+    write('8. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
 rule_description(9):-
-    write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.').
+    write('9. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park').
 rule_description(10):-
-    write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park').
+    write('10. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
 rule_description(11):-
-    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
+    write('11. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
 rule_description(12):-
-    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
+    write('12. If one person dives a car and the car needs gas, then this person needs to go to gas station').
 rule_description(13):-
-    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station').
+    write('13. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
+
+
 rule_description(14):-
-    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
-
-
+    write('14. If there is a footable team win the final match, then this footbal team is the champion').
 rule_description(15):-
-    write('15. If there is a footable team win the final match, then this footbal team is the champion').
+    write('15. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
 rule_description(16):-
-    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('16. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
 rule_description(17):-
-    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('17. If this is a special event, then this is also a major city event').
 rule_description(18):-
-    write('18. If this is a special event, then this is also a major city event').
+    write('18. If there is a major city event, then there are lots of people').
 rule_description(19):-
-    write('19. If there is a major city event, then there are lots of people').
+    write('19. If there are lots of people, then there is a congestion').
 rule_description(20):-
-    write('20. If there are lots of people, then there is a congestion').
+    write('20. If this is the cheapest transport method then this is the slowest').
 rule_description(21):-
-    write('21. If this is the cheapest transport method then this is the slowest').
+    write('21. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
 rule_description(22):-
-    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
-rule_description(23):-
-    write('23. If it has avaliable ticket, then this is the quickest transport method.').
+    write('22. If it has avaliable ticket, then this is the quickest transport method.').
     %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
+rule_description(23):-
+    write('23. If this transport is the quickest and belongs to a route, then this route is a valid route.').
 rule_description(24):-
-    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
-rule_description(25):-
-    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
+    write('24. If there is a valid route and this route has light traffic, then this route is a good route.').
 
 %% Pretty print the system rules 
 r_description(1):-
@@ -299,49 +295,49 @@ r_description(3):-
     write('3. If there is a smile emogi in the app, then this app predict it is a sunny day'),nl.
 r_description(4):-
     write('4. If one person download an app and this app predicted it is a sunny day, then this person knows today is a sunny day'),nl. 
+%r_description(5):-
+ %   write('5. If it shows green about an route, then there is light traffic on this route'),nl.
 r_description(5):-
-    write('5. If it shows green about an route, then there is light traffic on this route'),nl.
+    write('5. If there is a direct road connecting two locations, then this is the direct route.'),nl.
 r_description(6):-
-    write('6. If there is a direct road connecting two locations, then this is the direct route.'),nl.
+    write('6. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.'),nl.
 r_description(7):-
-    write('7. If there are two roads, with one connecting point A to point B and another connecting point B to point C, then there exists an indirect route from point A to point C.'),nl.
+    write('7. If there is a direct road connecting two locations, then we find the route between this two locations'),nl.
 r_description(8):-
-    write('8. If there is a direct road connecting two locations, then we find the route between this two locations'),nl.
+    write('8. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.'),nl.
 r_description(9):-
-    write('9. If there is a direct road connecting points A and B, and we discover the route between points B and C, then we can find all the route between points A and C.'),nl.
+    write('9. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park'),nl.
 r_description(10):-
-    write('10. If there is a gas station, and a park, there is no congestion in park, then we choose the road bewteen gas station and park'),nl.
-r_description(11):-
-    write('11. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
+    write('10. If there is a park and a school and it is not the peak hours for school, then we choose the road between park and school').
 
+r_description(11):-
+    write('11. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
 r_description(12):-
-    write('12. If there is a school and a airport, and there is a highway between these two places, then we choose this road between school and airport').
+    write('12. If one person dives a car and the car needs gas, then this person needs to go to gas station'),nl.
 r_description(13):-
-    write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station'),nl.
+    write('13. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
 r_description(14):-
-    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
+    write('14. If there is a footable team win the final match, then this footbal team is the champion').
 r_description(15):-
-    write('15. If there is a footable team win the final match, then this footbal team is the champion').
+    write('15. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
 r_description(16):-
-    write('16. if there is a champion football team and a main city road, then theere will be a parade event in this city road').
+    write('16. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
 r_description(17):-
-    write('17. If there is parade about a champion footbal team in the city road and this footabll team is celerabte it, then this is a spcial event').
+    write('17. If this is a special event, then this is also a major city event').
 r_description(18):-
-    write('18. If this is a special event, then this is also a major city event').
+    write('18. If there is a major city event, then there are lots of people').
 r_description(19):-
-    write('19. If there is a major city event, then there are lots of people').
+    write('19. If there are lots of people, then there is a congestion').
 r_description(20):-
-    write('20. If there are lots of people, then there is a congestion').
+    write('20. If this is the cheapest transport method then this is the slowest').
 r_description(21):-
-    write('21. If this is the cheapest transport method then this is the slowest').
+    write('21. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
 r_description(22):-
-    write('22. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
+    write('22. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 r_description(23):-
-    write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
+    write('23. If this transport is the quickest and belongs to a route, then this route is a valid route.').
 r_description(24):-
-    write('24. If this transport is the quickest and belongs to a route, then this route is a valid route.').
-r_description(25):-
-    write('25. If there is a valid route and this route has light traffic, then this route is a good route.').
+    write('24. If there is a valid route and this route has light traffic, then this route is a good route.').
 
 
 system_rule(Rule):-
