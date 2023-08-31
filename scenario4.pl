@@ -1,4 +1,4 @@
-% The user and computer agree with the different rule
+% The user and computer agree with the same reason
 % from city center to airport by only car 
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
