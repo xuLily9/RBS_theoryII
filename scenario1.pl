@@ -1,4 +1,5 @@
 % The user and computer disagree because of different fact 
+% the disagreement is node 26 light traffic 
 % From city center to airport, there are some options: train, drive or bus
 node(1,name(alex), initial_fact, []).
 node(2,name(emma), initial_fact, []).
