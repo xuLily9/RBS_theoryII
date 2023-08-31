@@ -1,5 +1,5 @@
-% The user and computer agree with the different fact
-% the valid route is travel plan, historical place or other places 
+% The user and computer agree with the different rule
+% conclusion is true
 % From London to Paris: flight, bus, train
 node(1,name(lisa), initial_fact, []).
 node(2,name(adam), initial_fact, []).
@@ -26,6 +26,7 @@ node(19,strike(train), initial_fact, []).
 node(20,ticket(train), initial_fact, []).
 node(21,transport(train), initial_fact, []).
 node(22,route_name(b), initial_fact, []).
+node(23,prefer(c), initial_fact, []).
 
 rule(1,[name(A),name(B)],friend(A,B)).
 rule(2,[name(A),city(X)],live(A,X)).
@@ -55,7 +56,7 @@ rule(18,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
 rule(19,[valid_route(X),light_traffic(X)],good_route(X)).
 
-conclusion(good_route(b)).
+conclusion(good_route(c)).
 
 user_fact(1,name(lisa), initial_fact, []).
 user_fact(2,name(adam), initial_fact, []).
@@ -108,7 +109,7 @@ user_rule(16,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route
 user_rule(17,[ticket(X)],quickest(X)).
 user_rule(18,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
-user_rule(19,[valid_route(X),light_traffic(X)],good_route(X)).
+user_rule(19,[valid_route(X),prefer(X)],good_route(X)).
 
 fact_description(name(X)):-
     write('his/her name is '), write(X).
@@ -160,12 +161,13 @@ fact_description(route_name(X)):-
 fact_description(cheapest(X)):-
     write('this is the cheapest '),write(X).
 
-fact_description(quickest(X)):-
-    write('this is the quickest '),write(X).
+
 fact_description(ticket(X)):-
     write(X),write(' has avaliable ticket').
 fact_description(strike(X)):-
     write('the staff of '), write(X), write(' is on strike').
+fact_description(prefer(X)):-
+    write(X), write(' is preferred').
 
 fact_description(quickest(X)):-
     write(X), write(' is the quickest way').
@@ -258,7 +260,7 @@ r_description(18):-
     write('18. If the mode of transport denoted by X is the quickest and there is a route name Y associated, then the route named Y is considered valid.').
     %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 r_description(19):-
-    write('19.If a route X is valid and there is light traffic on that route, then route X is considered a good route.').
+    write('19.If a route is valid and it is preferred, then this route is considered a good route.').
 
 system_rule(Rule):-
     r_description(Rule).
