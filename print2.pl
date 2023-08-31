@@ -3,10 +3,10 @@ print_indent(N, Char) :- N > 0, write(Char), N1 is N - 1, print_indent(N1, Char)
 
 % 递归地打印嵌套树
 print_tree([], _, _).
-print_tree([node(ID, Label, _, Children) | Rest], Indent, LastChild) :-
+print_tree([node(ID, Label, Rule, Children) | Rest], Indent, LastChild) :-
     print_indent(Indent, ' '),
     (LastChild = true -> write('└── ') ; write('├── ')),
-    format("~w. ~w~n", [ID, Label]),
+    format("~w. ~w,[~w]~n", [ID, Label,Rule]),
     NewIndent is Indent + 4,
     length(Children, ChildrenCount),
     print_children(Children, NewIndent, ChildrenCount, Rest),
