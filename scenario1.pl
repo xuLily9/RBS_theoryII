@@ -31,6 +31,7 @@ node(23,ticket(train), initial_fact, []).
 node(24,transport(train), initial_fact, []).
 node(25,route_name(b), initial_fact, []).
 node(26,light_traffic(c), initial_fact, []).
+%node(27,strike(train), initial_fact, []).
 
 rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 rule(2,[app(W),take_advice(X,W)],download(X,W)).
@@ -60,8 +61,8 @@ rule(21,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
 
 % This is for route b
-%rule(23,[not(strike(X)),ticket(X)],quickest(X)).
-rule(22,[ticket(X)],quickest(X)).
+rule(22,[ticket(X),not(strike(X))],quickest(X)).
+%rule(22,[ticket(X)],quickest(X)).
 
 rule(23,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
