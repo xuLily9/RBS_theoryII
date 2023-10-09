@@ -12,17 +12,18 @@ deduce_backwards(Q, node(ID, Q, ID_r , NodeList)):-
    ID is Numbers +1,
    assert(node(ID,Q,ID_r,NodeList)).
 
+
 %deduce_backwards(not(H), _):-
 %    deduce_backwards(H, _DAG), !.
 
 % Add a base case for non-existent facts
 %deduce_backwards(_, _).
 
-deduce_backwards(not(H), node(ID_n, not(H), DAG, [])):-
-    deduce_backwards(H, DAG), !,
-    countNumbers(Numbers),
-    ID_n is Numbers + 1,
-    assert(node(ID_n, not(H), DAG, [])).
+%deduce_backwards(not(H), node(ID_n, not(H), DAG, [])):-
+    %deduce_backwards(H, DAG), !,
+    %countNumbers(Numbers),
+    %ID_n is Numbers + 1,
+    %assert(node(ID_n, not(H), DAG, [])).
 
 countNumbers(Numbers) :-
   aggregate_all(count, node(_,_,_,_), Numbers).
@@ -38,6 +39,15 @@ check_antecedants([not(H)|T], [node(ID_n,not(H),unprovable,[])|NodeList]):-
     countNumbers(Numbers),
     ID_n is Numbers +1,
     assert(node(ID_n,not(H),unprovable,[])),
+    check_antecedants(T, NodeList).
+
+check_antecedants([not(H)|T], [node(ID_n,not(H),NodeList,[])|NodeList]):-
+    deduce_backwards(H, NodeList), !,
+    countNumbers(Numbers),
+    ID_n is Numbers +1,
+    assert(node(ID_n,not(H),NodeList,[])),
+    write(NodeList),
+    %\+ node(ID_n, H, _ID_r, _NodeList),
     check_antecedants(T, NodeList).
 
 
