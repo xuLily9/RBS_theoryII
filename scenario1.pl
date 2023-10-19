@@ -69,6 +69,8 @@ rule(23,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 rule(24,[valid_route(X),light_traffic(X)],good_route(X)).
 
 conclusion(good_route(c)).
+%conclusion(valid_route(b)).
+
 
 user_fact(1,name(alex), initial_fact, []).
 user_fact(2,name(emma), initial_fact, []).
