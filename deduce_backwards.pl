@@ -45,14 +45,10 @@ check_antecedants([not(H)|T], [node(ID_n,not(H),NodeList,[])|NodeList]):-
     deduce_backwards(H, NodeList), !,
     countNumbers(Numbers),
     ID_n is Numbers +1,
-    assert(node(ID_n,not(H),NodeList,[])),
-    write(NodeList),
+    assert(node(ID_n,H,NodeList,[])),
+    %write(NodeList),
     %\+ node(ID_n, H, _ID_r, _NodeList),
     check_antecedants(T, NodeList).
-
-
-
-
 
 
 
