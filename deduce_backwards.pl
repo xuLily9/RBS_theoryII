@@ -5,25 +5,13 @@ deduce_backwards(Q, node(ID, Q, R , DAG)):-
    node(ID, Q, R , DAG).
 deduce_backwards(Q, node(ID, Q, ID_r , NodeList)):-
    rule(ID_r, A, Q),
-   \+ node(_ID, Q, _ID_r, _NodeList),
-   %write(A),
-   check_antecedants(A, NodeList), !,
-   countNumbers(Numbers),
-   ID is Numbers +1,
-   assert(node(ID,Q,ID_r,NodeList)).
+   \+ node(ID, Q, ID_r, NodeList),
+    %assert(node(ID,Q,unprovable,A)),
+    check_antecedants(A, NodeList), !,
+    countNumbers(Numbers),
+    ID is Numbers +1,
+    assert(node(ID,Q,ID_r,NodeList)).
 
-
-%deduce_backwards(not(H), _):-
-%    deduce_backwards(H, _DAG), !.
-
-% Add a base case for non-existent facts
-%deduce_backwards(_, _).
-
-%deduce_backwards(not(H), node(ID_n, not(H), DAG, [])):-
-    %deduce_backwards(H, DAG), !,
-    %countNumbers(Numbers),
-    %ID_n is Numbers + 1,
-    %assert(node(ID_n, not(H), DAG, [])).
 
 countNumbers(Numbers) :-
   aggregate_all(count, node(_,_,_,_), Numbers).
@@ -34,6 +22,14 @@ check_antecedants([H|T], [node(ID, H, R, DAG)|NodeList]):-
     deduce_backwards(H, node(ID, H, R, DAG)),
     check_antecedants(T, NodeList).
 
+check_antecedants([H|T], [node(ID, H, R, DAG)|NodeList]):-
+    \+ deduce_backwards(H, node(ID, H, R, DAG)),
+    countNumbers(Numbers),
+    ID_n is Numbers +1,
+    assert(node(ID_n,H,unprovable,DAG)),
+    \+ node(ID_n,H,unprovable,DAG),
+    check_antecedants(T, NodeList).
+
 check_antecedants([not(H)|T], [node(ID_n,not(H),unprovable,[])|NodeList]):-
     \+ deduce_backwards(H, _DAG), !,
     countNumbers(Numbers),
@@ -41,11 +37,11 @@ check_antecedants([not(H)|T], [node(ID_n,not(H),unprovable,[])|NodeList]):-
     assert(node(ID_n,not(H),unprovable,[])),
     check_antecedants(T, NodeList).
 
-check_antecedants([not(H)|T], [node(ID_n,not(H),NodeList,[])|NodeList]):-
+check_antecedants([not(H)|T], [node(ID_n,not(H),R,NodeList)|NodeList]):-
     deduce_backwards(H, NodeList), !,
     countNumbers(Numbers),
     ID_n is Numbers +1,
-    assert(node(ID_n,H,NodeList,[])),
+    assert(node(ID_n,H,R,NodeList)),
     %write(NodeList),
     %\+ node(ID_n, H, _ID_r, _NodeList),
     check_antecedants(T, NodeList).
