@@ -346,6 +346,3 @@ r_description(24):-
 
 system_rule(Rule):-
     r_description(Rule).
-
-
-
