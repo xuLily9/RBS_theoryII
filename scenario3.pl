@@ -201,7 +201,7 @@ rule_description(9):-
 rule_description(10):-
     write('10. If there is a school and a airport, then we choose this road between school and airport').
 rule_description(11):-
-    write('11. If there is no direct flight available for a certain mode of transport, then that mode of transport is considered expensive').
+    write('11. If there is a direct flight available for a certain mode of transport, then that mode of transport is considered expensive').
 rule_description(12):-
     write('12. If there is light traffic in route C, and there exists a hotel A and an airport B in that area, such that there is a valid route between A and B, and the mode of transport denoted by Y is considered expensive, then the route C is considered valid').
 rule_description(13):-
@@ -243,7 +243,7 @@ r_description(9):-
 r_description(10):-
     write('10. If there is a school and a airport, then we choose this road between school and airport').
 r_description(11):-
-    write('11. If there is no direct flight available for a certain mode of transport, then that mode of transport is considered expensive').
+    write('11. If there is a direct flight available for a certain mode of transport, then that mode of transport is considered expensive').
 r_description(12):-
     write('12. If there is light traffic in route C, and there exists a hotel A and an airport B in that area, such that there is a valid route between A and B, and the mode of transport denoted by Y is considered expensive, then the route C is considered valid').
 r_description(13):-
