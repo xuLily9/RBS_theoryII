@@ -6,7 +6,7 @@ deduce_backwards(Q, node(ID, Q, R , DAG)):-
 deduce_backwards(Q, node(ID, Q, ID_r , NodeList)):-
    rule(ID_r, A, Q),
    \+ node(_ID, Q, _ID_r, _NodeList),
-   write(A),
+   %write(A),
    check_antecedants(A, NodeList), !,
    countNumbers(Numbers),
    ID is Numbers +1,
