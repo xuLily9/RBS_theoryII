@@ -97,7 +97,7 @@ user_fact(22,strike(train), initial_fact, []).
 user_fact(23,ticket(train), initial_fact, []).
 user_fact(24,transport(train), initial_fact, []).
 user_fact(25,route_name(b), initial_fact, []).
-user_fact(26,light_traffic(b), initial_fact, []).
+user_fact(26,light_traffic(c), initial_fact, []).
 
 user_rule(1,[friend(X,Z),call(X,Z),give_advice(W)],take_advice(X,W)).
 user_rule(2,[app(W),take_advice(X,W)],download(X,W)).
