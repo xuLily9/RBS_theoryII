@@ -247,7 +247,7 @@ rule_description(21):-
 rule_description(22):-
     write('22.  If the mode of transport denoted by X is the slowest and there is a route name Y associated, then the route named Y is considered valid.').
 rule_description(23):-
-    write('23. If there is a valid route and it is light traffic, then this route is a good route.').
+    write('23. If there is a valid route and it is the quickest, then this route is a good route.').
 
 
 %% Pretty print the system rules 
