@@ -6,7 +6,7 @@ why(F):-
     ->  write('\nComputer: Because '), 
         print_fact(F),
         write(' is an initial fact in computer.'),nl,
-        write('Computer: I have found the disagreement!'), print_fact(F),write(' is an initial fact in computer, but not in the user fact.\n'),nl, 
+        write('Computer: I have found the cause of difference!'), print_fact(F),write(' is an initial fact in computer, but not in the user fact.\n'),nl, 
         assert(different(F))
     ;   
         write('\nComputer: Because '), 
