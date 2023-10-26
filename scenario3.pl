@@ -1,5 +1,5 @@
 % The user and computer agree with the different rule
-% conclusion is true
+% conclusion is true, agree but with different rules
 % From London to Paris: flight, bus, train
 node(1,name(lisa), initial_fact, []).
 node(2,name(adam), initial_fact, []).
@@ -82,7 +82,7 @@ user_fact(19,strike(train), initial_fact, []).
 user_fact(20,ticket(train), initial_fact, []).
 user_fact(21,transport(train), initial_fact, []).
 user_fact(22,route_name(b), initial_fact, []).
-
+user_fact(23,prefer(c), initial_fact, []).
 user_rule(1,[name(A),name(B)],friend(A,B)).
 user_rule(2,[name(A),city(X)],live(A,X)).
 user_rule(3,[friend(A,B),live(A,X),live(B,Y)],travel(X,Y)).
@@ -218,8 +218,8 @@ rule_description(18):-
     write('18. If the mode of transport denoted by X is the quickest and there is a route name Y associated, then the route named Y is considered valid.').
     %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 rule_description(19):-
-    write('19.If a route X is valid and there is light traffic on that route, then route X is considered a good route.').
-
+    write('19. If a route is valid and it is preferred, then this route is considered a good route.').
+  
 %% Pretty print the system rules 
 
 r_description(1):-
@@ -260,7 +260,7 @@ r_description(18):-
     write('18. If the mode of transport denoted by X is the quickest and there is a route name Y associated, then the route named Y is considered valid.').
     %write('23. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
 r_description(19):-
-    write('19.If a route is valid and it is preferred, then this route is considered a good route.').
+    write('19. If a route X is valid and there is light traffic on that route, then route X is considered a good route.').
 
 system_rule(Rule):-
     r_description(Rule).
