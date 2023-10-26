@@ -13,7 +13,7 @@ why(F):-
         print_fact(F),
         write(' is the initial fact in computer.\n')
     ),
-    conversations(false,_).
+        conversations(false,_).
   
 why(F):- 
     node(_N, F, R, NL), !,                           
