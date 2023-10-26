@@ -3,10 +3,10 @@ why(F):-
     (  
         \+ deduce_user(F,_),
         \+ user_fact(_,F,_,_)
-    ->  write('\nComputer: Because computer has the fact: '), 
+    ->  write('\nComputer: Because '), 
         print_fact(F),
-        write(' is an initial fact.'),
-        write('Computer: I have found the disagreement. Computer has the fact: '), print_fact(F),write(' as an initial fact, but the user does not have it.\n'),nl, 
+        write(' is an initial fact in computer.'),nl,
+        write('Computer: I have found the disagreement!'), print_fact(F),write(' is an initial fact in computer, but not in the user fact.\n'),nl, 
         assert(different(F))
     ;   
         write('\nComputer: Because '), 
