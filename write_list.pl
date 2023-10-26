@@ -55,7 +55,7 @@ write_why_list:-
     y_user_computer(N,F),
     %deduce_user(F,_),
     \+ asked_question(F),
-    N1 is N,
+    N1 is N+1,
     write(N1),write(". Why do you believe "), print_fact(F), write("?"),nl,
     fail.
 write_why_list.
@@ -67,7 +67,7 @@ write_whynot_list:-
     %\+deduce_user(F,_),
     \+ asked_question(F),
     aggregate_all(count, y_user_computer(_,_), Count),  %This is only for the number of select question, know how many why questions and then count why not question
-    B is N+Count,
+    B is N+Count+1,
     write(B),write(". Why do not you believe "), print_fact(F), write("?"),nl,
     fail.
 write_whynot_list.
