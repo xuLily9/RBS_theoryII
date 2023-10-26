@@ -159,8 +159,10 @@ option(F):-
         write('Not a valid choice, try again...'), nl,fail
     ). 
 
-question_list:-
+question_list2(R):-
+    repeat,
     write('1. I am satisfied. Exit\n'),
+    write('2. I do not have this rule used by computer or I have a slightly different rule\n'),
     write_why_list,!,
     write_whynot_list,!, 
     write('User:'),
@@ -170,7 +172,19 @@ question_list:-
         N=:= 1
      -> write('Computer:Bye\n')->halt
      ;
-        N1 is N,
+        N=:= 2
+    ->  rule(R,A,F),
+        (
+            \+ user_rule(_,A,F),
+            write('\nComputer: I have found the disagreement. The computer used a rule that the user do not have it.\n'),
+            write('\n----------SELECT A QUESTION OR EXIT----------\n'),nl,
+            question_list
+        ;   write('\nComputer: This computer and user both have this rule, please select again.\n'),
+            write('\n----------SELECT A QUESTION OR EXIT----------\n'),nl,
+            question_list
+        )
+    ;
+        N1 is N-1,
         y_user_computer(N1, Fact)
         ->  write('\nUser: Why do you believe '),print_fact(Fact), write('?\n'),
             assert(asked_question(Fact)),
@@ -178,7 +192,7 @@ question_list:-
             conversations(_,_)
     ;   
         aggregate_all(count, y_user_computer(_,_), Count),
-        A is N-Count,
+        A is N-Count-1,
         n_user_computer(A,Fact)
          -> write('\nUser: Why do not you believe '),print_fact(Fact), write('?\n'),
             ask_whynot(Fact),
@@ -189,42 +203,40 @@ question_list:-
         write('Not a valid choice, try again...'), nl,fail
     ).
 
-
-conversations(_Used,_R):-
+question_list:-
     repeat,
-    write('\n----------SELECT A QUESTION OR EXIT----------\n'),nl,
-    question_list.
-
-
-
-dialogue2:-
-    repeat,
-    nl,
-    write('Computer: Please select one of the option:\n'),
     write('1. I am satisfied. Exit\n'),
     write_why_list,!,
-    write_whynot_list,!,
+    write_whynot_list,!, 
     write('User:'),
     prompt(_, ''),
     read(N),
-    (   
+    (
         N=:= 1
      -> write('Computer:Bye\n')->halt
-   ;   
+     ;
         N1 is N-1,
         y_user_computer(N1, Fact)
         ->  write('\nUser: Why do you believe '),print_fact(Fact), write('?\n'),
             assert(asked_question(Fact)),
-            why(Fact)
+            ask_why(Fact),
+            conversations(_,_)
     ;   
         aggregate_all(count, y_user_computer(_,_), Count),
         A is N-Count-1,
         n_user_computer(A,Fact)
          -> write('\nUser: Why do not you believe '),print_fact(Fact), write('?\n'),
-            %write('\nComputer: Why do you beleive '), print_fact(Fact), write('? '),
+            ask_whynot(Fact),
             write('\nComputer: Because it is not an initial fact and can not be decuced from the rules.'),
-            assert(asked_question(Fact))
-            %whynot(Fact)
+            assert(asked_question(Fact)),nl, 
+            conversations(_,_)
     ;   
         write('Not a valid choice, try again...'), nl,fail
     ).
+
+conversations(Used,R):-
+    repeat,
+    write('\n----------SELECT A QUESTION OR EXIT----------\n'),nl,
+    (Used=true
+    -> question_list2(R)
+    ; question_list).
