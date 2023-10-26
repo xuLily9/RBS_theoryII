@@ -6,21 +6,22 @@ chat:-
     print_welcome,
     print_conclusion(Conclusion,F),
     assert(asked_question(F)),
-    (Conclusion=true
-    ->ask_why(F)
-    ; ask_whynot(F)
+    (
+        Conclusion=true
+    ->  ask_why(F)
+    ;   
+        ask_whynot(F)
     ),
     conversations(_Used,_).
-
 
 print_welcome:-
     write_user_fact,
     write_user_rule.
 
-
 print_conclusion(Conclusion,F):-
     write('\n----------CONVERSATION ----------\n'),nl,
-    write('Computer: '),conclusion(F), 
+    write('Computer: '),
+    conclusion(F), 
     (
         deduce_backwards(F,node(_ID, F, _R, _DAG))
     ->  
@@ -79,8 +80,6 @@ ask_whynot(F):- % conclusion is false and the user ask all trypes of whynot ques
         write('\nComputer: Because it is not an initial fact and can not be decuced from the rules.'),
         assert(asked_question(F)),nl, 
         conversations(_,_)
-        %whynot(F)
-        
     ;  
          N =:= 2
     ->   Agree=false,
@@ -89,17 +88,19 @@ ask_whynot(F):- % conclusion is false and the user ask all trypes of whynot ques
          write('\nComputer: Why do you beleive '), print_fact(F), write('? '),
          assert(asked_question(F)),nl,
          whynot(F)
-        
     ;   
         N =:= 3
-    ->  write('User: [I do not know] Why do not you believe '), print_fact(F), write('?\n'),whynot(F)
-
-    ;   write("Computer: Not a valid choice, try again..."), nl,fail
+    ->  
+        write('User: [I do not know] Why do not you believe '), print_fact(F), write('?\n'),whynot(F)
+    ;   
+        write("Computer: Not a valid choice, try again..."), nl,fail
     ).
 
 database1(Agree,F):-   %conlcuison is true, update the state
-    (   Agree =true
-    ->  aggregate_all(count, y_computer_user(_,_), Count3), % computer knows user believes it
+    (   
+        Agree =true
+    ->  
+        aggregate_all(count, y_computer_user(_,_), Count3), % computer knows user believes it
         C is Count3 +1,
         assert(y_computer_user(C,F)),!, 
         assert(asked_question(F)),!
@@ -111,8 +112,10 @@ database1(Agree,F):-   %conlcuison is true, update the state
     ).
 
 database2(Agree,F):-   %conclusion is false, update the state
-   (    Agree =true
-    ->  aggregate_all(count, n_computer_user(_,_), Count1),
+    (   
+        Agree =true
+    ->  
+        aggregate_all(count, n_computer_user(_,_), Count1),
         B is Count1 +1,
         assert(n_computer_user(B,F)),!,     
         assert(asked_question(F)),!
