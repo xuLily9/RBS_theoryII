@@ -27,6 +27,13 @@ check_conditions_recursive([H|T]) :-
     check_conditions_recursive(T).
 
 
+check_antecedants([H|T], [node(ID, H, R, DAG)|NodeList]):-
+    \+ deduce_backwards(H, node(ID, H, R, DAG)),
+    countNumbers(Numbers),
+    ID_n is Numbers +1,
+    assert(node(ID_n,H,unprovable,DAG)),
+    \+ node(ID_n,H,unprovable,DAG),
+    check_antecedants(T, NodeList).
 
 
 
