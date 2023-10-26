@@ -20,6 +20,7 @@ node(16,route_set(a,b,c), initial_fact, []).
 node(17,football_team(mancity), initial_fact, []).
 node(18,cityroad(a), initial_fact, []).
 node(19,celebrate(mancity), initial_fact, []).
+
 node(20,narrow_road(b), initial_fact, []).
 node(21,more_traffic_light(b), initial_fact, []).
 node(22,country_road(b), initial_fact, []).
@@ -41,7 +42,8 @@ rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
 %rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],good_route(C)).
 
-rule(15,[valid_route(C),not(country_road(C)),not(cityroad(C)),highway(C)],good_route(C)).
+%rule(15,[valid_route(C),not(country_road(C)),not(cityroad(C)),highway(C)],good_route(C)).
+rule(15,[valid_route(C),highway(C)],good_route(C)).
 
 rule(16,[football_team(Y)],champion(Y)).
 rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
@@ -52,7 +54,7 @@ rule(21,[many_people(X)],congestion(X)).
 rule(22,[congestion(X),cityroad(X)],valid_route(X)).
 
 %rule(22,[not(congestion(X)),cityroad(X)],valid_route(X)).
-
+% for b
 rule(23,[narrow_road(X)],limited_road_capacity(X)).
 rule(24,[limited_road_capacity(X),more_traffic_light(X)],long_path(X)).
 %rule(25,[not(long_path(X)),country_road(X)],valid_route(X)).
@@ -103,7 +105,7 @@ user_rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
 user_rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 user_rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 user_rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
-user_rule(15,[valid_route(C),not(country_road(C)),not(cityroad(C)),highway(C)],good_route(C)).
+user_rule(15,[valid_route(C),highway(C)],good_route(C)).
 user_rule(16,[football_team(Y)],champion(Y)).
 user_rule(17,[champion(Y),cityroad(X)],parade(Y,X)).
 user_rule(18,[parade(Y,X),celebrate(Y)],special_event(X)).
@@ -254,7 +256,7 @@ rule_description(13):-
 rule_description(14):-
     write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
 rule_description(15):-
-    write('15. If there is a valid route, it is neither a country road nor city road and it is a hightway, then this route is a good route.').
+    write('15. If there is a valid route, and it is a hightway, then this route is a good route.').
 
 rule_description(16):-
     write('16. If there is a footable team win the final match, then this footbal team is the champion').
@@ -310,7 +312,7 @@ r_description(13):-
 r_description(14):-
     write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
 r_description(15):-
-    write('15. If there is a valid route, it is neither a country road nor city road and it is a hightway, then this route is a good route.').
+    write('15. If there is a valid route, and it is a hightway, then this route is a good route.').
 r_description(16):-
     write('16. If there is a footable team win the final match, then this footbal team is the champion').
 r_description(17):-
