@@ -42,7 +42,7 @@ print_conclusion(Conclusion,F):-
 ask_why(F):-    % conclusion is true and the user ask all trypes of why questions 
     repeat,
     nl,
-    write('Computer: Before the explanation. Do you agree '), print_fact(F),write(' is true?'),nl,
+    write('Computer: Do you agree '), print_fact(F),write(' is true?'),nl,
     true_then,
     write('User:'),read(N),
     (   N =:= 1
@@ -68,7 +68,7 @@ ask_why(F):-    % conclusion is true and the user ask all trypes of why question
 
 ask_whynot(F):- % conclusion is false and the user ask all trypes of whynot questions 
     repeat,
-    write('Computer: Before the explanation. Do you agree '), print_fact(F),write(' is not true?'),nl,
+    write('Computer: Do you agree '), print_fact(F),write(' is not true?'),nl,
     false_then,
     write('User:'),read(N),
     (   N =:= 1
