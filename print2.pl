@@ -7,6 +7,7 @@ print_tree([node(ID, Label, Rule, Children) | Rest], Indent, LastChild) :-
     print_indent(Indent, ' '),
     (LastChild = true -> write('└── ') ; write('├── ')),
     format("~w. ~w,[~w]~n", [ID, Label,Rule]),
+    %format("~w. ~w~n", [ID, Label]),
     NewIndent is Indent + 4,
     length(Children, ChildrenCount),
     print_children(Children, NewIndent, ChildrenCount, Rest),
@@ -29,8 +30,10 @@ list_to_tree([H|T], [H|Rest]) :-
     \+ is_list(H),  %如果元素不是列表保留元素
     list_to_tree(T, Rest).
 
-print:-
-    conclusion(F), 
-    deduce_backwards(F,node(_ID, F, _R, List)),
+print(F):-
+    %conclusion(F), 
+    %deduce_backwards(F,node(_ID, F, _R, List)),
+    %deduce_backwards(F,node(_ID, F, _R, List)),
+    node(_ID, F, _R, List),
     list_to_tree(List, Tree),
     print_tree(Tree, 0, true).
