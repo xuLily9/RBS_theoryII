@@ -97,7 +97,6 @@ user_rule(11,[transport(Y),direct_flight(Y)],expensive(Y)).
 user_rule(12,[light_traffic(C),hotel(A),airport(B),find_route(A, B),expensive(Y),transport(Y)],valid_route(C)).
 
 % bus is for route a 
-
 user_rule(13,[special_event(Y)],major_city_event(Y)).
 user_rule(14,[major_city_event(Y)],many_people(Y)).
 
@@ -105,7 +104,6 @@ user_rule(15,[slowest(X),transport(X)],cheapest(X)).
 user_rule(16,[many_people(Y),route_name(Y),cheapest(X),transport(X)],valid_route(Y)).
 
 % train is for route b
-%rule(23,[not(strike(X)),ticket(X)],quickest(X)).
 user_rule(17,[ticket(X)],quickest(X)).
 user_rule(18,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
@@ -118,7 +116,7 @@ fact_description(friend(X,Y)):-
 fact_description(travel(X,Y)):-
     write('travel from city '), write(X),write(' to'), write(Y).
 fact_description(live(X,Y)):-
-    write(X), write(' lives in city '),write(Y).
+    write(X), write(' lives in the city of '),write(Y).
 fact_description(city(X)):-
     write(X), write(' is a city').
 fact_description(road(X,Y)):-
@@ -130,26 +128,26 @@ fact_description(indirect_route(X,Y)):-
 fact_description(find_route(X, Y)):-
     write('we find aroute from '), write(X), write(' to '),write(Y).
 fact_description(hotel(X)):-
-    write('hotel is at location'), write(X).
+    write('a hotel is at location'), write(X).
 fact_description(park(X)):-
-    write('park is at location '),write(X).
+    write('a park is at location '),write(X).
 fact_description(school(X)):-
-    write('school is at location '),write(X).
+    write('a school is at location '),write(X).
 fact_description(airport(X)):-
-    write('airport is at location '),write(X).
+    write('an airport is at location '),write(X).
 fact_description(not(congestion(Y))):-
     write('in route '), write(Y), write(',there is no congestion').
 fact_description(transport(X)):-
     write(X),write(' is the transport method').
 fact_description(direct_flight(X)):-
-    write(X),write(' has direct flight').
+    write(X),write(' has direct flights').
 fact_description(light_traffic(X)):-
-    write(X),write(' route has light traffic').
+     write('the route '), write(X),write(' has light traffic').
 fact_description(expensive(X)):-
     write('transport '),write(X),write(' is expensive').
 
 fact_description(special_event(X)):-
-    write('there is a special event in road '),write(X).
+    write('there is a special event on road '),write(X).
 fact_description(major_city_event(X)):-
     write('there is a major city event in road '),write(X).
 fact_description(many_people(X)):-
@@ -163,9 +161,9 @@ fact_description(cheapest(X)):-
 
 
 fact_description(ticket(X)):-
-    write(X),write(' has avaliable ticket').
+    write(X),write(' has avaliable tickets').
 fact_description(strike(X)):-
-    write('the staff of '), write(X), write(' is on strike').
+    write('the staff of the '), write(X), write(' is on strike').
 fact_description(prefer(X)):-
     write(X), write(' is preferred').
 
