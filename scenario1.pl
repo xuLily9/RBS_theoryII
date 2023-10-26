@@ -61,12 +61,13 @@ rule(21,[congestion(Y),route_name(Y),slowest(X),transport(X)],valid_route(Y)).
 
 
 % This is for route b
-rule(22,[ticket(X),not(strike(X))],quickest(X)).
-%rule(22,[ticket(X)],quickest(X)).
+%rule(22,[ticket(X),not(strike(X))],quickest(X)).
+rule(22,[ticket(X)],quickest(X)).
 
 rule(23,[transport(X), quickest(X),route_name(Y)],valid_route(Y)).
 
 rule(24,[valid_route(X),light_traffic(X)],good_route(X)).
+
 
 conclusion(good_route(c)).
 %conclusion(valid_route(b)).
@@ -337,7 +338,7 @@ r_description(20):-
 r_description(21):-
     write('21. If there is a congestion in the route and this transport is the slowest transport, then this road is valid.').
 r_description(22):-
-    write('22. If there is no strike and it has avaliable ticket, then this is the quickest transport method.').
+    write('22. If it has avaliable ticket, then this is the quickest transport method.').
 r_description(23):-
     write('23. If this transport is the quickest and belongs to a route, then this route is a valid route.').
 r_description(24):-
