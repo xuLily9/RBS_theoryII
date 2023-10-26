@@ -9,7 +9,7 @@ node(5,give_advice(forcast), initial_fact, []).
 node(6,app(forcast), initial_fact, []).
 node(7,smile(forcast), initial_fact, []).
 node(8,need_gas(car), initial_fact, []).
-node(9,gas(00), initial_fact, []).
+node(9,gas_station(00), initial_fact, []).
 node(10,park(10), initial_fact, []).
 node(11,school(20), initial_fact, []).
 node(12,airport(30), initial_fact, []).
@@ -40,9 +40,6 @@ rule(11,[park(X),school(Y),not(peak_hours(Y))],road(X,Y)).
 rule(12,[school(X),airport(Y),highway(X,Y)],road(X,Y)).
 rule(13,[drive(Y),need_gas(Y),gas(X)],gas_station(X)).
 rule(14,[light_traffic(C),weather_sunny(X),gas_station(A),airport(B),find_route(A, B),name(X)],valid_route(C)).
-%rule(15,[route_set(A,B,C),not(valid_route(A)),not(valid_route(B)),valid_route(C)],good_route(C)).
-
-%rule(15,[valid_route(C),not(country_road(C)),not(cityroad(C)),highway(C)],good_route(C)).
 rule(15,[valid_route(C),highway(C)],good_route(C)).
 
 rule(16,[football_team(Y)],champion(Y)).
@@ -57,8 +54,6 @@ rule(22,[congestion(X),cityroad(X)],valid_route(X)).
 % for b
 rule(23,[narrow_road(X)],limited_road_capacity(X)).
 rule(24,[limited_road_capacity(X),more_traffic_light(X)],long_path(X)).
-%rule(25,[not(long_path(X)),country_road(X)],valid_route(X)).
-
 rule(25,[long_path(X),country_road(X)],valid_route(X)).
 
 conclusion(good_route(c)).
@@ -71,10 +66,7 @@ user_fact(5,give_advice(forcast), initial_fact, []).
 user_fact(6,app(forcast), initial_fact, []).
 user_fact(7,smile(forcast), initial_fact, []).
 user_fact(8,need_gas(car), initial_fact, []).
-%node(8,road(00,10), initial_fact, []).
-%user_fact(9,road(10,20), initial_fact, []).
-%user_fact(10,road(20,30), initial_fact, []).
-user_fact(9,gas(00), initial_fact, []).
+user_fact(9,gas_station(00), initial_fact, []).
 user_fact(10,park(10), initial_fact, []).
 user_fact(11,school(20), initial_fact, []).
 user_fact(12,airport(30), initial_fact, []).
@@ -132,7 +124,7 @@ fact_description(long_path(X)):-
     write(X),write(' is a long path').
 
 fact_description(football_team(X)):-
-    write('the name of ffotball team is '), write(X).
+    write('the name of football team is '), write(X).
 fact_description(cityroad(X)):-
     write(X), write(' is a city road').
 fact_description(highway(X)):-
@@ -151,8 +143,6 @@ fact_description(major_city_event(X)):-
     write('there is a major city event in road '),write(X).
 fact_description(many_people(X)):-
     write('there are lots of people in road '),write(X).
-%fact_description(congestion(X)):-
-    %write('there is congestion in road '),write(X).
 fact_description(congestion(Y)):-
     write('in location '), write(Y), write(' ,there is a congestion').
 
@@ -163,30 +153,28 @@ fact_description(friend(X,Y)):-
 fact_description(call(X,Y)):-
     write(X), write(' called '),write(Y).
 fact_description(give_advice(X)):-
-     write('his/her firends gave advice about app called '),write(X).
+     write('his/her firends gave advice about an app called '),write(X).
 fact_description(app(X)):-
-    write('app name is '),write(X).
+    write('the name of the app is '),write(X).
 fact_description(smile(X)):-
-    write('there is a smile emoji showed on app '),write(X).
+    write('there is a smile emoji shown on the '),write(X),write(' app').
 
 fact_description(need_gas(X)):-
     write(X), write(' needs gas').
 fact_description(road(X,Y)):-
     write('we choose this road from '), write(X), write(' to '),write(Y).
 fact_description(gas_station(X)):-
-    write('gas station is at location '),write(X).
-fact_description(gas(X)):-
-   write(X), write(' has gas').
+    write('location '),write(X),write(' has gas station').
 fact_description(park(X)):-
-    write('park is at location '),write(X).
+    write('the park is at location '),write(X).
 fact_description(school(X)):-
-    write('school is at location '),write(X).
+    write('the school is at location '),write(X).
 fact_description(airport(X)):-
-    write('airport is at location '),write(X).
+    write('the airport is at location '),write(X).
 fact_description(green(X)):-
-    write('the app shows route '),write(X),write(' is green').
+    write('the app shows that route '),write(X),write(' is green').
 fact_description(drive(X)):-
-    write('he/She can dive'),write(X).
+    write('he/She can dive a'),write(X).
 
 fact_description(take_advice(X,W)):-
    write(X), write(' took the advice about '),write(W).
@@ -212,7 +200,7 @@ fact_description(peak_hours(X)):-
 fact_description(not(peak_hours(X))):-
     write('it is not the peak hours for '),write(X).
 fact_description(highway(X,Y)):-
-    write('from '),write(X),write(' to '),write(Y),write(' is a highway road').
+    write('from location '),write(X),write(' to '),write(Y),write(' is a highway road').
 
 fact_description(choose_route(X)):-
     write('he/she will choose the route: '), write(X).
