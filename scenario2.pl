@@ -1,5 +1,5 @@
 % The user and computer disagree with the different rule
-% conclusion is true, rule 23 is different
+% conclusion is true, rule 23 is different, the computer think it is c, the user think it is a 
 % From manchester to london: flying, by train, by car 
 node(1,name(sarah), initial_fact, []).
 node(2,name(jack), initial_fact, []).
