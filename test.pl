@@ -26,7 +26,7 @@ check_conditions_recursive([H|T]) :-
     node(_ID, H, _ID_r, _NodeList),
     check_conditions_recursive(T).
 
-
+% for print out the unprovable node
 check_antecedants([H|T], [node(ID, H, R, DAG)|NodeList]):-
     \+ deduce_backwards(H, node(ID, H, R, DAG)),
     countNumbers(Numbers),
