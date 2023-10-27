@@ -242,7 +242,7 @@ rule_description(12):-
 rule_description(13):-
     write('13. If one person dives a car and the car needs gas, then this person needs to go to gas station').
 rule_description(14):-
-    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then he choose valid route').
+    write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then then this route ia a  valid route to choose').
 rule_description(15):-
     write('15. If there is a valid route, and it is a hightway, then this route is a good route.').
 
