@@ -300,7 +300,7 @@ r_description(13):-
 r_description(14):-
     write('14. If there is a light traffic, and this person knows the weather is sunny, he/she need go from gas station to airport, then this route ia a  valid route to choose'),nl.
 r_description(15):-
-    write('15. If there is a valid route, and it is not a city road, and it is a hightway, then this route is a good route.').
+    write('15. If there is a valid route, and it is a hightway, then this route is a good route.').
 r_description(16):-
     write('16. If there is a footable team win the final match, then this footbal team is the champion').
 r_description(17):-
